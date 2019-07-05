@@ -275,18 +275,37 @@ h1{
 
 }
 .activate{
-    display: block;
+    display:inline;
+	width: 672px;
+	height: 300px;
 }
 .deactivate{
     display:none;
+
 }
 .freccia-sx-slider{
     background-image: url("freccia_sx.png");
     background-position:center;
     background-repeat: no-repeat;
+	background-size: contain;
+	height: 50px;
+	width: 5px;
+	margin:12vh 0 0 1vw ;
 }
 .freccia-dx-slider{
     background-image: url("freccia_dx.png");
     background-position:center;
     background-repeat: no-repeat;
+	background-size: contain;
+	height: 50px;
+	width: 5px;
+	margin-top:12vh;
+}
+.nomesensore{
+	transform: rotate(90deg);
+	text-transform: uppercase;
+	font-size: 1.5em;
+	position: absolute;
+	top:25vh;
+	left: 0vw;
 }

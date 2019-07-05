@@ -79,6 +79,11 @@ def create_app(test_config=None):
 
         username=session['username']
         user = mongo.db.utenti.find_one({"username":session['username']})
+        sensori = user["sensore"]
+        listasensori = []
+        for x in sensori :
+            listasensori.append(x)
+            print(x)
 
         #this way i get the actuale date and time
         now = datetime.datetime.now()
@@ -96,11 +101,13 @@ def create_app(test_config=None):
 
         #select su dati del mese
         try:
-            monthsdata = mongo.db.sensori.find({"data": { "$gt": actual_month }}).sort("time",-1)
+            monthsdata = mongo.db.sensori.find({"data": { "$gt": actual_month }, "time" :{ "$regex": "12"}}).sort("time",-1)
         except:
-            print("errore su ricerca dati del mese")
+            print("**-errore su ricerca dati del mese*-*")
         dictionaryday = []
         dictionarymonth = []
+        arraysensore = []
+        listasensori = []
 
         #select last data
         for x in daysdata:
@@ -109,11 +116,19 @@ def create_app(test_config=None):
         # select last data
         for x in monthsdata:
             dictionarymonth.append(x)
-            print(x)
+
+        arraysensore.append(dictionaryday)
+        arraysensore.append(dictionarymonth)
+
+        listasensori.append(arraysensore)
+
+       
 
 
 
-        return render_template('gestione.html',daytemp=dictionaryday, monthtemp=dictionarymonth, username=username )
+
+        return render_template('gestione.html',daytemp=dictionaryday, monthtemp=dictionarymonth, username=username,
+                               listasensori=listasensori)
 
 
 
@@ -131,12 +146,17 @@ def create_app(test_config=None):
         password= request.form['password']
         password_repeat = request.form['password_repeat']
         code_sensor = request.form['code']
+        plantsname = request.form['plantsname']
         result=mongo.db.utenti.find_one({"username":username})
         if result==None :
             if  password==password_repeat:
                 mongo.db.utenti.insert_one({"username":username,
                                             "password":password,
-                                           "code": code_sensor})
+                                           "sensore": [{
+                                               "code":code_sensor,
+                                               "name":plantsname
+                                           }]
+                                            })
                 return render_template('index.html')
             else:
                 error = 'passwords do not match'

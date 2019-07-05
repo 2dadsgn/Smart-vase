@@ -4,6 +4,14 @@
 function click_dx() {
 	document.getElementById("chartContainer1").classList.remove("activate")
 	document.getElementById("chartContainer1").classList.add("deactivate")
+	document.getElementById("chartContainer2").classList.remove("deactivate")
+	document.getElementById("chartContainer2").classList.add("activate")
+}
+function click_sx() {
+	document.getElementById("chartContainer2").classList.remove("activate")
+	document.getElementById("chartContainer2").classList.add("deactivate")
+	document.getElementById("chartContainer1").classList.remove("deactivate")
+	document.getElementById("chartContainer1").classList.add("activate")
 
 }
 
