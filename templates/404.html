@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>404</title>
+    <!-- Bootstrap -->
+    <link href="{{ url_for('static', filename = 'bootstrap-4.2.1.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename = 'main.css') }}" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+	  
+	  
+	  <div class="container-fluid transition-main" id="container">
+		  <div class="row" >
+			   <form id="404">
+				   <h3>You are screwed</h3>
+			     <a href="index" style="margin: auto;">
+					 <img  src="{{ url_for('static', filename = '116456-200.png') }}" width="200" height="200" alt=""/>
+				   </a>
+					 
+              </form> 			  
+		  </div>
+	  
+	  </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="{{ url_for('static', filename = 'jquery-3.3.1.min.js') }}"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="{{ url_for('static', filename = 'popper.min.js') }}"></script>
+    <script src="{{ url_for('static', filename = 'bootstrap-4.2.1.js') }}"></script>
+	<script src="{{ url_for('static', filename = 'main.js') }}"></script>
+  </body>
+</html>

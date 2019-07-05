@@ -1,0 +1,292 @@
+@charset "utf-8";
+/* CSS Document */
+
+#container{
+	background-image:url("bkg(1).jpg");
+	background-repeat: no-repeat;
+	background-position: center;
+	width: 100vw;
+	height: 100vh;
+	background-size: cover;
+	padding: 10vh 2vw 0vh 5vw;
+}
+
+
+#login{
+	width: 30.5vw;
+	height: 57vh;
+	margin: auto;	
+	text-align: center;
+	margin-top: 10vh;
+	background-color: hsla(0,0%,0%,0.61);
+	padding:  0;
+	border:50px medium white;
+	border-radius: 10px;
+	box-shadow: 0 6px 10px 0 rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.3);
+	display: inline;
+}
+
+
+.input-text {
+	background-color: hsla(142,73%,77%,0.62);
+	color:white;	
+	width: 52%;
+	text-align: center;
+	margin: auto;	
+	margin-bottom: 2vh;
+	border-radius: 10px;
+	border: 0.0px  groove white;
+	
+}
+#intasto{
+	background-color:hsla(164,100%,43%,1.00);
+	border:hsla(164,100%,43%,1.00);
+	box-shadow: 0 6px 10px 0 rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.3);
+	color: white;
+	width:15vw;
+	height: 4vh;
+	font-weight: 500;
+	letter-spacing: 0.07em;
+	border-radius: 50px;
+	cursor:pointer;	
+	margin:2vh 0 0 0 ;
+}
+#intasto:hover{
+	transition-property: all;
+	transition-timing-function: ease-in-out;
+	transform-style: preserve-3d;
+	transition-duration: 900ms;	
+	background-color:hsla(164,100%,63%,1.00);
+	color: black;
+	
+}
+.a-text{
+	margin-top: 0.0em;
+	color: white;
+	opacity: 0.30;
+	cursor:pointer;
+	margin:0;
+}
+
+.transition-main{
+	-webkit-animation-name: fade;
+	-webkit-animation-duration:1500ms;
+	-webkit-transition-name: fade;
+	-webkit-transition-duration: 1500ms;
+	-moz-animation-duration:1500ms;
+	-moz-animation-name: fade;
+	-moz-transition-duration: 1500ms;
+	-moz-transition-name: fade;
+	-ms-animation-duration: 1500ms;
+	-ms-animation-name: fade;
+	-o-animation-name: fade;
+	-o-animation-duration: 1500ms;
+	-moz-animation-timing-function: ease-in-out;
+	-webkit-transition-timing-function: ease-in-out;
+	animation-timing-function: ease-in-out;
+	animation-name: fade;
+	animation-duration: 1500ms;	
+	transition-timing-function: ease-in-out;
+	transition-name: fade;
+	transition-duration: 1500ms;
+	background-size: cover;
+}
+.nopadding{
+	padding-right: 0;
+	padding-left:0;
+}
+
+
+@media (max-height: 900px){
+	
+#login{
+	display: inline;
+	width: 70.5vw;
+	height: 72vh;
+	margin: auto;	
+	text-align: center;
+	margin-top: 10vh;
+	background-color: hsla(0,0%,0%,0.61);
+	padding:  0.5em 3.5em 0.5em 3.5em;
+	border:50px medium white;
+	border-radius: 10px;
+	box-shadow: 0 6px 10px 0 rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.3);
+}
+.input-text {
+	background-color: hsla(142,73%,77%,0.62);
+	color:white;	
+	width: 100%;
+	text-align: center;
+	margin: auto;	
+	margin-bottom: 5vh;
+	border-radius: 10px;
+	border: 0.0px  groove white;
+	
+}
+#intasto{
+	background-color:hsla(164,100%,43%,1.00);
+	border:hsla(164,100%,43%,1.00);
+	box-shadow: 0 6px 10px 0 rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.3);
+	color: white;
+	width:30vw;
+	height: 4vh;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	border-radius: 50px;
+	cursor:pointer;	
+	margin:auto;
+}
+	
+}
+/*------------------------TESTI E PARAG---------------------------------*/
+
+h2{
+	color: white;
+	font-size: 2em;
+}
+h3{
+    color:white;
+	font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", Verdana, "sans-serif";
+	font-weight: 100;
+	font-size: 1.0em;
+	margin: auto ;	
+	text-align: center;
+	margin-bottom: 0.8vh;
+	
+}
+h4{
+    color:white;
+	font-family:"Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", Verdana, "sans-serif";
+	font-weight: 100;
+	font-size: 1.8em;
+	margin: auto ;		
+	margin-bottom: 0.8vh;
+	
+}
+h5{
+    color:hsla(0,0%,50%,1.00);
+	font-family:"Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", Verdana, "sans-serif";
+	font-weight: 100;
+	font-size: 1em;
+	margin: auto ;		
+	margin-top: 0.8vh;
+	
+}
+.error{
+	color: red;
+
+}
+
+/*------------------------PAGINA GESTIONE-------------------------------*/
+
+
+
+.utente-ico{
+	width: 50px;
+	height: 50px;
+	margin:0 1vw 0 1em;
+}
+#logout-cta{
+	border:none;
+	cursor:pointer;
+	background-color:unset;
+	color: white;
+	font-size: 0.9em;
+	text-align:center;
+	font-weight: normal;
+	margin:-50px 0 0 95vw;
+}
+#p-username-logout{
+	color: white;
+	font-size: 1.5em;
+	font-weight: bold;
+	text-transform: capitalize;
+	margin:6px 0 0 1vw;
+	text-align: center;
+}
+#form-acomparsa{
+
+	background-color:rgba(76, 175, 80, 0.5);
+	width: 250px;
+	height:120px;
+	position: fixed;
+	top: 80vh;
+	right: -215px;
+	align-content: center;
+}
+#form-acomparsa:hover{
+	transition-duration: 600ms;
+	transition-timing-function: linear;
+	right:0vw
+
+}
+.statistic{
+	height: 300px;
+	width: 50%;
+}
+.problema {
+	font-size: 0.9em;
+	color: red;
+}
+.ok{
+	color: green;
+	font-size: 0.9em;
+}
+.status{
+	width: 20em;
+	height: 10em;
+	color: white;
+
+	margin-left: 2em;
+
+}
+.div-sensore{
+	border-bottom: white 2px solid;
+	padding-bottom: 4vh;
+	width: 80vw;
+
+}
+
+.smiling-plant{
+	width: 15em;
+	height: 15em;
+}
+.sad-plant{
+    width: 15em;
+	height: 15em;
+}
+h1{
+	font-size: 2em;
+	color:white;
+}
+.freccia-logout{
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 1em;
+	margin-top: 50px;
+}
+.barra-utente{
+	width: 100vw;
+	height: 50px;
+	background-color: hsla(0,0%,0%,0.61);
+	position: fixed;
+	top:0;
+	left: 0;
+
+}
+.activate{
+    display: block;
+}
+.deactivate{
+    display:none;
+}
+.freccia-sx-slider{
+    background-image: url("freccia_sx.png");
+    background-position:center;
+    background-repeat: no-repeat;
+}
+.freccia-dx-slider{
+    background-image: url("freccia_dx.png");
+    background-position:center;
+    background-repeat: no-repeat;
+}

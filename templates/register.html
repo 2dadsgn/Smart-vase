@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block body %}
+	  
+	  <div class="container-fluid transition-main" id="container">
+		  <div class="row" >
+			   <form action="{{ url_for('register_insert') }}" id="login" class="row" method="post">
+				   <img class="img-responsive" src="{{ url_for('static', filename = 'logo.png') }}" width="50" height="50" alt="" style="margin: auto;margin-top: 2em;">
+				   <h2 class="col-12">Account creation</h2>
+				   <h3 class="col-12">Chose a username</h3>
+				   <input id="username" class="input-text col-12" type="text" name="username" value="">
+                   <p class="error">{{ error_username }}</p>
+				   <h3 class="col-12">Insert a password</h3>
+				   <input id="password" class="input-text col-md-12" type="password" name="password" value="">
+				   <h3 class="col-12">Repeat the password</h3>
+				   <input class="input-text col-md-12" type="password" name="password_repeat" value="">
+                   <h3 class="col-12">Insert sensor's unique code</h3>
+				   <input class="input-text col-md-12" type="text" name="code" value="#abc123">
+                   <p class="error">{{ error_pass }}</p>
+				   <input id="intasto" class="col-md-12" type="submit" value="Create"><br>
+			  </form>
+		  </div>
+
+	  </div>
+
+{% endblock  %}

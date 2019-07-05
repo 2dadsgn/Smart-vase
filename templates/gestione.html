@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% block head %}
+    <script type="text/javascript" src="{{ url_for('static', filename='canvasjs.min.js') }}"></script>
+
+{% endblock %}
+	  
+{% block body %}
+	  <div class="container-fluid transition-main" id="container">
+      <form class="barra-utente row" style="padding: 0;margin: 0;"  action="{{ url_for('logging_out') }}">
+
+          <img class="utente-ico" src={{ url_for('static', filename='utente_ico.png') }}>
+          <p id="p-username-logout">{{ username }}</p>
+          <p style="color: green;margin: 15px 0 0 20px;">online</p>
+          <input id="logout-cta"  value="Log out" type="submit" id="logout-cta">
+
+      </form>
+
+          <form  id="form-acomparsa"  >
+              <div class="col-1">
+                  <img class="freccia-logout "  width="10px" height="10px" src={{ url_for('static',filename='freccia-logout.png')}}>
+              </div>
+              <div class="col-9" >
+
+              </div>
+
+          </form>
+          <div class="row div-sensore">
+
+              <div class="col-1 freccia-sx-slider"></div>
+              <div class="statistic col-6 activate"  id="chartContainer1"></div>
+              <div class="statistic col-6 deactivate"  id="chartContainer2" ></div>
+              <div class="col-1 frecciadx-slider"></div>
+              <div class="col-2 status" style="align-content: center;text-align: center;">
+
+
+                  {% if daytemp['water']=='False' or daytemp['light']=='False' %}
+
+                         <img  src="{{ url_for('static', filename = 'sad-plant.png') }}" class="sad-plant"  >
+
+                      {% if daytemp['water']=='False' and daytemp['light']=='False' %}
+
+                          <p class="error">Your plant needs water  and light</p>
+
+                      {% elif daytemp['water']=='False' %}
+
+                           <p class="error">Your plant needs water </p>
+
+                      {% else %}
+
+                           <p>Your plant needs light</p>
+
+                       {% endif %}
+
+                  {% else %}
+
+                          <img  src="{{ url_for('static', filename = 'smiling-plant.png') }}" class="smiling-plant "  >
+                      <h1 style="font-size: 1.4em;color:limegreen;text-align: center">EVERYTHING'S <br> OKAY!   </h1>
+
+                  {% endif %}
+              </div>
+          </div>
+
+
+
+      </div>
+    <script type="text/javascript">
+       window.onload = function () {
+    var chart = new CanvasJS.Chart("chartContainer1",
+    {
+      title:{
+        text: "Sensore #123abc"
+      },
+      axisY: {
+        title: "Temperature / Humidity",
+        maximum: 100
+      },
+      data: [
+      {
+        type: "bar",
+        showInLegend: true,
+        legendText: "temperature ° C",
+        color: "red",
+        dataPoints: [
+            {% for c in daytemp %}
+        { y: {{ c["external temperature"] }}, label: "temperature"},
+            {% endfor %}
+
+        ]
+      },
+          {
+        type: "bar",
+        showInLegend: true,
+        legendText: "Humidity %",
+        color: "blue",
+        dataPoints: [
+           {% for c in daytemp %}
+        { y: {{ c["external humidity"] }}, label: "temperature"},
+            {% endfor %}
+        ]
+      }
+      ]
+    });
+
+chart.render();
+}
+</script>
+
+
+{% endblock %}
+    
