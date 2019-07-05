@@ -1,12 +1,9 @@
+import datetime
 import os
 import time
-import datetime
 
-from flask import Flask, render_template, request, redirect,url_for, flash, session
+from flask import Flask, render_template, request, redirect, url_for, session
 from flask_pymongo import PyMongo
-from werkzeug.security import generate_password_hash, \
-     check_password_hash
-
 
 
 def create_app(test_config=None):
@@ -112,6 +109,7 @@ def create_app(test_config=None):
         # select last data
         for x in monthsdata:
             dictionarymonth.append(x)
+            print(x)
 
 
 
