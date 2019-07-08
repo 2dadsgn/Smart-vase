@@ -103,16 +103,13 @@ def create_app(test_config=None):
         for x in user["sensore"] :
             listasensori.append(x["code"])
             nomi_sensori.append(x["name"])
-            print(x)
 
-
-
+        # variabile passata a jinja per iterare i form dei sensori
         numero_sensori = len(listasensori)
 
         for i in listasensori :
             cursor_day = mongo.db.sensori.find({"code":i, "data":actual_date}).sort("time",-1)
             cursor_month = mongo.db.sensori.find({"code": i, "data": { "$gt": actual_month }}).sort("data",1)
-
 
             for c in cursor_day :
                 # lista che contiente tutti dati raccolti dal sensore
@@ -127,10 +124,6 @@ def create_app(test_config=None):
             dati_sensore.clear()
             dati_sensore_del_mese.clear()
             dati_sensore_del_day.clear()
-
-
-
-
 
         return render_template('gestione.html', username=username,numero_sensori=numero_sensori,sensori=sensori,
                                data=actual_date, nomi_sensori=nomi_sensori)
