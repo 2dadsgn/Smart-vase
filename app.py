@@ -1,4 +1,3 @@
-import datetime
 import os
 import time
 
@@ -79,56 +78,51 @@ def create_app(test_config=None):
 
         username=session['username']
         user = mongo.db.utenti.find_one({"username":session['username']})
-        sensori = user["sensore"]
-        listasensori = []
-        for x in sensori :
-            listasensori.append(x)
-            print(x)
+
 
         #this way i get the actuale date and time
-        now = datetime.datetime.now()
-        actual_date = now.strftime("%Y-%m-%d")
-        actual_month= now.strftime("%Y-%m")
+        #now = datetime.datetime.now()
+        #actual_date = now.strftime("%Y-%m-%d")
+        #actual_month= now.strftime("%Y-%m")
+
+        #------RICORDARSI DI CANCELLARE QUESTA RIGA DI CODICE--------
+        actual_date = "2019-07-05"
+        actual_month = "2019-07"
+        #------------------------------------------------------------
 
 
-        #this gets the mongoDB's cursor onto the data inserted by the specific sensor
-        #for the actual day and it sorts them
-        try:
-            daysdata = mongo.db.sensori.find({"data":actual_date}).sort("time",-1)
-
-        except:
-            print("**-errore nella ricerca sensori per utente--*")
-
-        #select su dati del mese
-        try:
-            monthsdata = mongo.db.sensori.find({"data": { "$gt": actual_month }, "time" :{ "$regex": "12"}}).sort("time",-1)
-        except:
-            print("**-errore su ricerca dati del mese*-*")
-        dictionaryday = []
-        dictionarymonth = []
-        arraysensore = []
         listasensori = []
+        dati_sensore_del_day = []
+        dati_sensore_del_mese = []
+        dati_sensore = []
+        sensori = []
 
-        #select last data
-        for x in daysdata:
-            dictionaryday.append(x)
+        for x in user["sensore"] :
+            listasensori.append(x["code"])
+            print(x)
 
-        # select last data
-        for x in monthsdata:
-            dictionarymonth.append(x)
+        numero_sensori = len(listasensori)
 
-        arraysensore.append(dictionaryday)
-        arraysensore.append(dictionarymonth)
+        for i in listasensori :
+            cursor_day = mongo.db.sensori.find({"code":i, "data":actual_date}).sort("time",-1)
+            cursor_month = mongo.db.sensori.find({"code": i, "data": { "$gt": actual_month }}).sort("data",1)
 
-        listasensori.append(arraysensore)
+            for c in cursor_day :
+                #lista che contiente tutti dati raccolti dal sensore
+                dati_sensore_del_day.append(c)
 
-       
+                #lista che contiente tutti dati raccolti dal sensore
+                dati_sensore_del_mese.append(c)
+            #lista che contiente tutti i dati di tutti i sensori, ogni sensore ha un index
+            dati_sensore.append(dati_sensore_del_day)
+            dati_sensore.append(dati_sensore_del_mese)
+            sensori.append(dati_sensore.copy())
+            dati_sensore.clear()
 
 
 
 
-        return render_template('gestione.html',daytemp=dictionaryday, monthtemp=dictionarymonth, username=username,
-                               listasensori=listasensori)
+        return render_template('gestione.html', username=username)
 
 
 

@@ -11,7 +11,7 @@
           <img class="utente-ico" src={{ url_for('static', filename='utente_ico.png') }}>
           <p id="p-username-logout">{{ username }}</p>
           <p style="color: green;margin: 15px 0 0 20px;">online</p>
-          <p style="color: green;margin: 15px 0 0 20px;">{{ daytemp[0]["data"] }}</p>
+          <p style="color: green;margin: 15px 0 0 20px;">data</p>
           <input id="logout-cta"  value="Log out" type="submit" id="logout-cta">
 
       </form>
@@ -25,8 +25,9 @@
               </div>
 
           </form>
-          <div class="row div-sensore">
-               <h3 class="nomesensore">{{ listasensori[0]["name"] }}</h3>
+      <div class="inner-div">
+      {% for i in range(1,5) %}
+          <div class="row div-sensore">prova</h3>
               <div class="col-1 freccia-sx-slider" onclick="click_sx()"></div>
               <div class="statistic col-6 activate"  id="chartContainer1"></div>
               <div class="statistic col-6 deactivate"  id="chartContainer2" style="width: 672px;height: 300px;"></div>
@@ -34,15 +35,15 @@
               <div class="col-2 status" style="align-content: center;text-align: center;">
 
 
-                  {% if daytemp['water']=='False' or daytemp['light']=='False' %}
+                  {% if 'False'=='False' or 'False'=='False' %}
 
                          <img  src="{{ url_for('static', filename = 'sad-plant.png') }}" class="sad-plant"  >
 
-                      {% if daytemp['water']=='False' and daytemp['light']=='False' %}
+                      {% if 'False'=='False' and 'False'=='False' %}
 
                           <p class="error">Your plant needs water  and light</p>
 
-                      {% elif daytemp['water']=='False' %}
+                      {% elif 'False'=='False' %}
 
                            <p class="error">Your plant needs water </p>
 
@@ -61,7 +62,8 @@
               </div>
 
           </div>
-
+      {% endfor %}
+</div>
 
 
       </div>
@@ -83,8 +85,8 @@
         legendText: "Temperature ° C",
         color: "red",
         dataPoints: [
-            {% for c in daytemp %}
-        { y: {{ c["external temperature"] }}, label: {{c["data"]}}  },
+            {% for c in range(1,5) %}
+        { y: 3, label: "prova" },
             {% endfor %}
 
         ]
@@ -95,8 +97,8 @@
         legendText: "Humidity %",
         color: "blue",
         dataPoints: [
-           {% for c in daytemp %}
-        { y: {{ c["external humidity"] }}, label: {{c["data"]}}  },
+            {% for c in range(1,5) %}
+        { y: 3, label: "prova" },
             {% endfor %}
         ]
       }
@@ -120,9 +122,8 @@
         legendText: "Temperature ° C",
         color: "red",
         dataPoints: [
-            {% for c  in monthtemp %}
-
-        { y: {{ c["external temperature"] }}, label: {{c["data"]}} },
+            {% for c in range(1,5) %}
+        { y: 3, label: "prova" },
             {% endfor %}
 
         ]
@@ -133,8 +134,8 @@
         legendText: "Humidity %",
         color: "blue",
         dataPoints: [
-           {% for c in monthtemp %}
-        { y: {{ c["external humidity"] }}, label:{{c["data"]}}  },
+           {% for c in range(1,5) %}
+        { y: 3, label: "prova" },
             {% endfor %}
         ]
       }

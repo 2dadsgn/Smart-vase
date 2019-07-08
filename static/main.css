@@ -9,8 +9,14 @@
 	height: 100vh;
 	background-size: cover;
 	padding: 10vh 2vw 0vh 5vw;
+	position:fixed;
+	overflow-y: scroll;
 }
-
+#container::-webkit-scrollbar{
+	width: 0!important;
+	display: none;
+	overflow-y:hidden;
+}
 
 #login{
 	width: 30.5vw;
@@ -30,7 +36,7 @@
 .input-text {
 	background-color: hsla(142,73%,77%,0.62);
 	color:white;	
-	width: 52%;
+	width: 13vw;
 	text-align: center;
 	margin: auto;	
 	margin-bottom: 2vh;
@@ -97,11 +103,11 @@
 }
 
 
-@media (max-height: 900px){
+@media (max-width: 576px){
 	
 #login{
 	display: inline;
-	width: 70.5vw;
+	width: 30.5vw;
 	height: 72vh;
 	margin: auto;	
 	text-align: center;
@@ -308,4 +314,9 @@ h1{
 	position: absolute;
 	top:25vh;
 	left: 0vw;
+}
+.inner-div{
+	position: static;
+
+	height: 200vh;
 }
