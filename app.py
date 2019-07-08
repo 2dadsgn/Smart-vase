@@ -82,8 +82,8 @@ def create_app(test_config=None):
 
         #this way i get the actuale date and time
         #now = datetime.datetime.now()
-        #actual_date = now.strftime("%Y-%m-%d")
-        #actual_month= now.strftime("%Y-%m")
+        # actual_date = now.strftime("%Y-%m-%d")
+        # actual_month= now.strftime("%Y-%m")
 
         #------RICORDARSI DI CANCELLARE QUESTA RIGA DI CODICE--------
         actual_date = "2019-07-05"
@@ -96,10 +96,16 @@ def create_app(test_config=None):
         dati_sensore_del_mese = []
         dati_sensore = []
         sensori = []
+        nomi_sensori = []
 
+        # with a serie of FOR cicle I'm gonna create a multidimensional array
+        # to store all the sensors and all their data
         for x in user["sensore"] :
             listasensori.append(x["code"])
+            nomi_sensori.append(x["name"])
             print(x)
+
+
 
         numero_sensori = len(listasensori)
 
@@ -107,22 +113,27 @@ def create_app(test_config=None):
             cursor_day = mongo.db.sensori.find({"code":i, "data":actual_date}).sort("time",-1)
             cursor_month = mongo.db.sensori.find({"code": i, "data": { "$gt": actual_month }}).sort("data",1)
 
-            for c in cursor_day :
-                #lista che contiente tutti dati raccolti dal sensore
-                dati_sensore_del_day.append(c)
 
-                #lista che contiente tutti dati raccolti dal sensore
+            for c in cursor_day :
+                # lista che contiente tutti dati raccolti dal sensore
+                dati_sensore_del_day.append(c)
+            for c in cursor_month :
+                # lista che contiente tutti dati raccolti dal sensore
                 dati_sensore_del_mese.append(c)
-            #lista che contiente tutti i dati di tutti i sensori, ogni sensore ha un index
-            dati_sensore.append(dati_sensore_del_day)
-            dati_sensore.append(dati_sensore_del_mese)
+            # lista che contiente tutti i dati di tutti i sensori, ogni sensore ha un index
+            dati_sensore.append(dati_sensore_del_day.copy())
+            dati_sensore.append(dati_sensore_del_mese.copy())
             sensori.append(dati_sensore.copy())
             dati_sensore.clear()
+            dati_sensore_del_mese.clear()
+            dati_sensore_del_day.clear()
 
 
 
 
-        return render_template('gestione.html', username=username)
+
+        return render_template('gestione.html', username=username,numero_sensori=numero_sensori,sensori=sensori,
+                               data=actual_date, nomi_sensori=nomi_sensori)
 
 
 

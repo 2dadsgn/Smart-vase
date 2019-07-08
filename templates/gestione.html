@@ -5,13 +5,13 @@
 {% endblock %}
 	  
 {% block body %}
-	  <div class="container-fluid transition-main" id="container">
+	  <div class="container-fluid transition-main" id="container" >
       <form class="barra-utente row" style="padding: 0;margin: 0;"  action="{{ url_for('logging_out') }}">
 
           <img class="utente-ico" src={{ url_for('static', filename='utente_ico.png') }}>
           <p id="p-username-logout">{{ username }}</p>
           <p style="color: green;margin: 15px 0 0 20px;">online</p>
-          <p style="color: green;margin: 15px 0 0 20px;">data</p>
+          <p style="color: green;margin: 15px 0 0 20px;">{{ data }}</p>
           <input id="logout-cta"  value="Log out" type="submit" id="logout-cta">
 
       </form>
@@ -26,8 +26,9 @@
 
           </form>
       <div class="inner-div">
-      {% for i in range(1,5) %}
-          <div class="row div-sensore">prova</h3>
+      {% for i in range(0,numero_sensori) %}
+          <div class="row div-sensore">
+              <h6>{{ nomi_sensori[i] }}</h6>
               <div class="col-1 freccia-sx-slider" onclick="click_sx()"></div>
               <div class="statistic col-6 activate"  id="chartContainer1"></div>
               <div class="statistic col-6 deactivate"  id="chartContainer2" style="width: 672px;height: 300px;"></div>
@@ -35,15 +36,15 @@
               <div class="col-2 status" style="align-content: center;text-align: center;">
 
 
-                  {% if 'False'=='False' or 'False'=='False' %}
+                  {% if sensori[i][0][0]['light']=='False' or sensori[i][0][0]['water']=='False' %}
 
                          <img  src="{{ url_for('static', filename = 'sad-plant.png') }}" class="sad-plant"  >
 
-                      {% if 'False'=='False' and 'False'=='False' %}
+                      {% if sensori[i][0][0]['light']=='False' and sensori[i][0][0]['water']=='False' %}
 
-                          <p class="error">Your plant needs water  and light</p>
+                          <p class="error">Your plant needs water  and light </p>
 
-                      {% elif 'False'=='False' %}
+                      {% elif sensori[i][0][0]['water']=='False' %}
 
                            <p class="error">Your plant needs water </p>
 
@@ -56,7 +57,7 @@
                   {% else %}
 
                           <img  src="{{ url_for('static', filename = 'smiling-plant.png') }}" class="smiling-plant "  >
-                      <h1 style="font-size: 1.4em;color:limegreen;text-align: center">EVERYTHING'S <br> OKAY!  </h1>
+                      <h1 style="font-size: 1.4em;color:limegreen;text-align: center">EVERYTHING'S <br> OKAY!</h1>
 
                   {% endif %}
               </div>
@@ -65,8 +66,8 @@
       {% endfor %}
 </div>
 
-
-      </div>
+     </div>
+   {% for i in range(0,numero_sensori) %}
     <script type="text/javascript">
        window.onload = function () {
     var chart = new CanvasJS.Chart("chartContainer1",
@@ -85,8 +86,8 @@
         legendText: "Temperature ° C",
         color: "red",
         dataPoints: [
-            {% for c in range(1,5) %}
-        { y: 3, label: "prova" },
+            {% for c in sensori[i][0] %}
+      { y: {{ c['external temperature']  }},label: {{ c['data']  }}},
             {% endfor %}
 
         ]
@@ -97,8 +98,8 @@
         legendText: "Humidity %",
         color: "blue",
         dataPoints: [
-            {% for c in range(1,5) %}
-        { y: 3, label: "prova" },
+            {% for c in sensori[i][0] %}
+        { y: {{ c['external temperature']  }}, label: {{ c['data']  }}},
             {% endfor %}
         ]
       }
@@ -122,8 +123,8 @@
         legendText: "Temperature ° C",
         color: "red",
         dataPoints: [
-            {% for c in range(1,5) %}
-        { y: 3, label: "prova" },
+            {% for c in sensori[i][1] %}
+        { y: {{ c['external temperature']  }}, label: {{ c['data']  }}},
             {% endfor %}
 
         ]
@@ -134,8 +135,8 @@
         legendText: "Humidity %",
         color: "blue",
         dataPoints: [
-           {% for c in range(1,5) %}
-        { y: 3, label: "prova" },
+           {% for c in sensori[i][1] %}
+        { y:{{ c['external humidity']  }},label: {{ c['data']  }}},
             {% endfor %}
         ]
       }
@@ -146,6 +147,7 @@ chart.render();
 chart2.render();
 }
 </script>
+    {% endfor %}
 
 
 {% endblock %}
