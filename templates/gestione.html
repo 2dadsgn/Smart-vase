@@ -11,12 +11,12 @@
           <img class="utente-ico" src={{ url_for('static', filename='utente_ico.png') }}>
           <p id="p-username-logout">{{ username }}</p>
           <p style="color: green;margin: 15px 0 0 20px;">online</p>
-          <p style="color: green;margin: 15px 0 0 20px;">{{ data }}</p>
-          <input id="logout-cta"  value="Log out" type="submit" id="logout-cta">
+          <p style="color: green;margin: 15px 0 0 20px;" class="nascosto">{{ data }}</p>
+          <input id="logout-cta"  value="Log out" type="submit" >
 
       </form>
 
-          <form  id="form-acomparsa"  >
+          <form  id="form-acomparsa" class="nascosto" >
               <div class="col-1">
                   <img class="freccia-logout "  width="10px" height="10px" src={{ url_for('static',filename='freccia-logout.png')}}>
               </div>
@@ -28,12 +28,12 @@
       <div class="inner-div">
       {% for i in range(0,numero_sensori) %}
           <div class="row div-sensore">
-              <h6>{{ nomi_sensori[i] }}</h6>
-              <div class="col-1 freccia-sx-slider" onclick="click_sx()"></div>
-              <div class="statistic col-6 activate"  id="chartContainer1"></div>
-              <div class="statistic col-6 deactivate"  id="chartContainer2" style="width: 672px;height: 300px;"></div>
-              <div class="col-1 freccia-dx-slider" onclick="click_dx()"></div>
-              <div class="col-2 status" style="align-content: center;text-align: center;">
+              <h6 class="col-md-1 col-1">{{ nomi_sensori[i] }}</h6>
+              <div class="col-md-1 col-1 freccia-sx-slider nascosto" onclick="click_sx()"></div>
+              <div class="statistic col-md-6 col-12 activate nascosto"  id="chartContainer1"></div>
+              <div class="statistic col-md-6 col-12 deactivate nascosto"  id="chartContainer2" style="width: 672px;height: 300px;"></div>
+              <div class="col-md-1 col-1 freccia-dx-slider nascosto" onclick="click_dx()"></div>
+              <div class="col-md-2 col-12 status" style="align-content: center;text-align: center;">
 
 
                   {% if sensori[i][0][0]['light']=='False' or sensori[i][0][0]['water']=='False' %}
@@ -64,6 +64,14 @@
 
           </div>
       {% endfor %}
+
+      <div class="row add-new" >
+          <a class="col-12" href="">
+              <img src="{{ url_for('static', filename = 'plus.png') }}" class="plus">
+          </a>
+          <h8 class="col-12">Add new Smart Sensor</h8>
+
+      </div>
 </div>
 
      </div>

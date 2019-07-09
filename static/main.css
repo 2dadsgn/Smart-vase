@@ -16,6 +16,7 @@
 	width: 0!important;
 	display: none;
 	overflow-y:hidden;
+    overflow-x:hidden;
 }
 
 #login{
@@ -30,6 +31,19 @@
 	border-radius: 10px;
 	box-shadow: 0 6px 10px 0 rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.3);
 	display: inline;
+}
+#register{
+	display: inline;
+	width: 80.5vw;
+	height: 82vh;
+	margin: auto;
+	text-align: center;
+	margin-top: 5vh;
+	background-color: hsla(0,0%,0%,0.61);
+	padding:  0.5em 3.5em 0.5em 3.5em;
+	border:50px medium white;
+	border-radius: 10px;
+	box-shadow: 0 6px 10px 0 rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.3);
 }
 
 
@@ -103,48 +117,12 @@
 }
 
 
-@media (max-width: 576px){
-	
-#login{
-	display: inline;
-	width: 30.5vw;
-	height: 72vh;
-	margin: auto;	
-	text-align: center;
-	margin-top: 10vh;
-	background-color: hsla(0,0%,0%,0.61);
-	padding:  0.5em 3.5em 0.5em 3.5em;
-	border:50px medium white;
-	border-radius: 10px;
-	box-shadow: 0 6px 10px 0 rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.3);
-}
-.input-text {
-	background-color: hsla(142,73%,77%,0.62);
-	color:white;	
-	width: 100%;
-	text-align: center;
-	margin: auto;	
-	margin-bottom: 5vh;
-	border-radius: 10px;
-	border: 0.0px  groove white;
-	
-}
-#intasto{
-	background-color:hsla(164,100%,43%,1.00);
-	border:hsla(164,100%,43%,1.00);
-	box-shadow: 0 6px 10px 0 rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.3);
-	color: white;
-	width:30vw;
-	height: 4vh;
-	font-weight: 700;
-	letter-spacing: 0.08em;
-	border-radius: 50px;
-	cursor:pointer;	
-	margin:auto;
-}
-	
-}
+
 /*------------------------TESTI E PARAG---------------------------------*/
+h1{
+	font-size: 2em;
+	color:white;
+}
 
 h2{
 	color: white;
@@ -184,8 +162,8 @@ h6{
 	font-weight: 100;
 	font-size: 2.0em;
 	position: absolute;
-	left: 0;
-	top: 25vh;
+	left: -10vw;
+	top: -6vh;
 	transform: rotate(90deg);
 	text-transform: uppercase;
 
@@ -260,7 +238,7 @@ h6{
 }
 .div-sensore{
 	border-bottom: white 2px solid;
-	padding-bottom: 4vh;
+	padding: 8vh 0 4vh 0;
 	width: 80vw;
 	height: 60vh;
 	height: 50vh;
@@ -275,10 +253,7 @@ h6{
     width: 15em;
 	height: 15em;
 }
-h1{
-	font-size: 2em;
-	color:white;
-}
+
 .freccia-logout{
 	background-repeat: no-repeat;
 	background-position: center;
@@ -292,8 +267,7 @@ h1{
 	position: fixed;
 	top:0;
 	left: 0;
-
-
+    z-index: 10;
 }
 .activate{
     display:inline;
@@ -332,6 +306,161 @@ h1{
 }
 .inner-div{
 	position: static;
+}
+.plus{
+    margin-left:6vw;
+    margin-bottom: 2vh;
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    left: 30vw;
+    top: 5vh;
+}
+h8 {
+    width: 10vw;
+    font-size: 1.5em;
+    color: white;
+    font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", Verdana, "sans-serif";
+    font-weight: 100;
+    position: absolute;
+    left: -8vw;
+    top: 13vh;
+
+}
+.add-new{
+    margin: auto;
+    text-align: center;
+    align-content: center;
+    align-items: center;
+}
 
 
+
+
+/*-------MOBILE--------------------------*/
+
+@media (max-width: 576px) {
+
+    #login {
+        display: inline;
+        width: 80.5vw;
+        height: 82vh;
+        margin: auto;
+        text-align: center;
+        margin-top: 5vh;
+        background-color: hsla(0, 0%, 0%, 0.61);
+        padding: 0.5em 3.5em 0.5em 3.5em;
+        border: 50px medium white;
+        border-radius: 10px;
+        box-shadow: 0 6px 10px 0 rgba(0, 0, 0, .2), 0 2px 2px 0 rgba(0, 0, 0, .3);
+    }
+
+    #register {
+        display: inline;
+        width: 80.5vw;
+        height: 95vh;
+        margin: auto;
+        text-align: center;
+        margin-top: 5vh;
+        margin-bottom: 5vh;
+        background-color: hsla(0, 0%, 0%, 0.61);
+        padding: 0.5em 3.5em 0.5em 3.5em;
+        border: 50px medium white;
+        border-radius: 10px;
+        box-shadow: 0 6px 10px 0 rgba(0, 0, 0, .2), 0 2px 2px 0 rgba(0, 0, 0, .3);
+    }
+
+    .input-text {
+        background-color: hsla(142, 73%, 77%, 0.62);
+        color: white;
+        width: 100%;
+        text-align: center;
+        margin: auto;
+        margin-bottom: 3vh;
+        border-radius: 10px;
+        border: 0.0px groove white;
+
+    }
+
+    #intasto {
+        background-color: hsla(164, 100%, 43%, 1.00);
+        border: hsla(164, 100%, 43%, 1.00);
+        box-shadow: 0 6px 10px 0 rgba(0, 0, 0, .2), 0 2px 2px 0 rgba(0, 0, 0, .3);
+        color: white;
+        width: 30vw;
+        height: 4vh;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        border-radius: 50px;
+        cursor: pointer;
+        margin: auto;
+    }
+
+    #form-acomparsa {
+        display: none;
+    }
+
+    #logout-cta {
+        border: none;
+        cursor: pointer;
+        background-color: unset;
+        color: white;
+        font-size: 0.9em;
+        text-align: center;
+        font-weight: normal;
+        margin: -50px 0 0 80vw;
+    }
+
+    .nascosto {
+        display: none;
+    }
+    .plus{
+        position: static;
+        margin: 0;
+    }
+
+    h6 {
+        color: white;
+        font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", Verdana, "sans-serif";
+        font-weight: 100;
+        font-size: 2.0em;
+        position: absolute;
+        left: 15vw;
+        top: 0vh;
+        transform: none;
+        text-transform: uppercase;
+        padding: 0;
+        margin: 0;
+        height: 50px;
+    }
+
+    #container {
+        padding: 15vh 0 0 0;
+    }
+
+    .div-sensore {
+        padding: 0;
+        margin: auto;
+        align-content: center;
+    }
+
+    .status {
+        height: 100%;
+        margin: 0;
+    }
+
+    h8 {
+        margin: 0;
+        position: static;
+
+    }
+
+    .add-new {
+        margin: auto;
+        margin-top: 10vh;
+        text-align: center;
+        align-content: center;
+        align-items: center;
+        padding: 0;
+    }
 }
