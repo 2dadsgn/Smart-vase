@@ -3,6 +3,7 @@ import time
 
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_pymongo import PyMongo
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 def create_app(test_config=None):
@@ -13,8 +14,6 @@ def create_app(test_config=None):
 
     app.config["MONGO_URI"] = "mongodb://localhost:27017/db-progetto"
     mongo = PyMongo(app)
-
-
 
     app.secret_key = b'_52ksaLF3Q8znxec]/'
 
@@ -53,7 +52,7 @@ def create_app(test_config=None):
             return render_template('index.html', error_name=error)
 
         else :
-            if db_username['password'] == password:
+            if check_password_hash(db_username['password'], password):
                 session['username']=username
                 return redirect(url_for('gestione'))
             else:
@@ -142,8 +141,16 @@ def create_app(test_config=None):
             dati_sensore_del_mese.clear()
             dati_sensore_del_day.clear()
 
+        cursor_day = mongo.db.sensori.find({"code":i, "data":actual_date}).sort("time",-1)
+        for c in cursor_day:
+            # lista che contiente tutti dati raccolti dal sensore
+            dati_sensore_del_day.append(c)
+        vuoto = len(dati_sensore_del_day)
+
+
+
         return render_template('gestione.html', username=session['username'],numero_sensori=numero_sensori,sensori=sensori,
-                               data=actual_date, nomi_sensori=nomi_sensori)
+                               data=actual_date, nomi_sensori=nomi_sensori,vuoto=vuoto)
 
 
     @app.route('/register')
@@ -165,7 +172,7 @@ def create_app(test_config=None):
         if result==None :
             if  password==password_repeat:
                 mongo.db.utenti.insert_one({"username":username,
-                                            "password":password,
+                                            "password":generate_password_hash(password),
                                            "sensore": [{
                                                "code":code_sensor,
                                                "name":plantsname

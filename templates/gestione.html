@@ -5,16 +5,16 @@
 {% endblock %}
 	  
 {% block body %}
-	  <div class="container-fluid transition-main" id="container" >
-      <form class="barra-utente row" style="padding: 0;margin: 0;"  action="{{ url_for('logging_out') }}">
+	  <div class="container-fluid transition-main"  id="container"  >
+      <div class="barra-utente row" style="padding: 0;margin: 0;" >
 
-          <img class="utente-ico" src={{ url_for('static', filename='utente_ico.png') }}>
+          <img class="utente-ico" src={{ url_for('static', filename='logo.png') }}>
           <p id="p-username-logout">{{ username }}</p>
           <p style="color: green;margin: 15px 0 0 20px;">online</p>
           <p style="color: green;margin: 15px 0 0 20px;" class="nascosto">{{ data }}</p>
-          <input id="logout-cta"  value="Log out" type="submit" >
+          <a id="logout-cta"  href="{{ url_for('logging_out') }}" >Log out</a>
 
-      </form>
+      </div>
 
           <form  id="form-acomparsa" class="nascosto" >
               <div class="col-1">
@@ -26,6 +26,13 @@
 
           </form>
       <div class="inner-div">
+      {% if vuoto==0 %}
+
+            <h1 style="text-align: center;color: red;margin-top: 40vh;">No Data availables,<br>
+              are you sure your Smart vase is connected to the internet?</h1>
+
+
+      {% else %}
       {% for i in range(0,numero_sensori) %}
           <div class="row div-sensore">
               <h6 class="col-md-1 col-1">{{ nomi_sensori[i] }}</h6>
@@ -66,7 +73,8 @@
       {% endfor %}
 
       <div class="row add-new" >
-          <a class="col-12" href="">
+
+          <a class="col-12" href="{{ url_for('index') }}">
               <img src="{{ url_for('static', filename = 'plus.png') }}" class="plus">
           </a>
           <h8 class="col-12">Add new Smart Sensor</h8>
@@ -74,7 +82,13 @@
       </div>
 </div>
 
+
+      {% endif %}
+
      </div>
+    {% if vuoto==0 %}
+
+    {% else %}
    {% for i in range(0,numero_sensori) %}
     <script type="text/javascript">
        window.onload = function () {
@@ -156,6 +170,7 @@ chart2.render();
 }
 </script>
     {% endfor %}
+    {% endif %}
 
 
 {% endblock %}

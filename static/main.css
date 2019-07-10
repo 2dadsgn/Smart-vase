@@ -34,8 +34,8 @@
 }
 #register{
 	display: inline;
-	width: 80.5vw;
-	height: 82vh;
+	width: 30.5vw;
+	height: 72vh;
 	margin: auto;
 	text-align: center;
 	margin-top: 5vh;
@@ -190,7 +190,7 @@ h6{
 	font-size: 0.9em;
 	text-align:center;
 	font-weight: normal;
-	margin:-50px 0 0 95vw;
+	margin:-35px 0 0 95vw;
 }
 #p-username-logout{
 	color: white;
@@ -242,6 +242,9 @@ h6{
 	width: 80vw;
 	height: 60vh;
 	height: 50vh;
+	background-color: hsla(0,0%,0%,0.61);
+	border-top-left-radius: 20px;
+	border-top-right-radius: 20px;
 
 }
 
@@ -337,9 +340,11 @@ h8 {
 
 
 
+
 /*-------MOBILE--------------------------*/
 
 @media (max-width: 576px) {
+
 
     #login {
         display: inline;
@@ -347,7 +352,7 @@ h8 {
         height: 82vh;
         margin: auto;
         text-align: center;
-        margin-top: 5vh;
+
         background-color: hsla(0, 0%, 0%, 0.61);
         padding: 0.5em 3.5em 0.5em 3.5em;
         border: 50px medium white;
@@ -435,7 +440,7 @@ h8 {
     }
 
     #container {
-        padding: 15vh 0 0 0;
+        padding: 5vh 0 0 0;
     }
 
     .div-sensore {
@@ -463,4 +468,6 @@ h8 {
         align-items: center;
         padding: 0;
     }
+
+
 }
