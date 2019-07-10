@@ -148,7 +148,6 @@ def create_app(test_config=None):
         vuoto = len(dati_sensore_del_day)
 
 
-
         return render_template('gestione.html', username=session['username'],numero_sensori=numero_sensori,sensori=sensori,
                                data=actual_date, nomi_sensori=nomi_sensori,vuoto=vuoto)
 
