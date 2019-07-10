@@ -72,7 +72,7 @@ def create_app(test_config=None):
         return  render_template('index.html')
 
     #route per la pagina sessione attiva gestione sensori
-    @app.route('/gestione', methods=['POST','GET'])
+    @app.route('/gestione')
     def gestione():
 
         # effettuo controllo se la sessione è attiva, altrimenti reinderizzo a index
@@ -184,6 +184,22 @@ def create_app(test_config=None):
         else :
             error = 'user already registered'
             return render_template('register.html', error_username=error)
+
+    @app.route('/addnewplant')
+    def addnewplant():
+        return render_template('add-new-plant.html')
+
+    @app.route('/adding', methods=['POST','GET'])
+    def add_plant():
+        plantsname = request.form['plantsname']
+        code = request.form['sensorcode']
+        mongo.db.utenti.update_one({"username": session['username']}, {"$push": {"sensore":{"code":code, "name":plantsname}}})
+        return redirect(url_for('gestione'))
+
+    @app.errorhandler(404)
+    def page_not_found():
+        return render_template('404.html')
+
 
 
 
