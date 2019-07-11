@@ -232,9 +232,7 @@ h6{
 	width: 20em;
 	height: 10em;
 	color: white;
-
-	margin-left: 2em;
-
+	margin-left: 7em;
 }
 .div-sensore{
 	border-bottom: white 2px solid;
@@ -319,6 +317,14 @@ h6{
     left: 30vw;
     top: 5vh;
 }
+.plus:hover {
+	transition-timing-function: ease-in-out;
+	transition-duration: 800ms;
+	transform: rotate(720deg);
+	background-color: #20c997;
+	border-radius: 60px;
+}
+
 h8 {
     width: 10vw;
     font-size: 1.5em;
@@ -341,7 +347,12 @@ h8 {
 	height: 30px;
 	position: relative;
 	top: -3em;
-	left: 6em;
+	left: 8em;
+}
+.delete:hover{
+	transition-timing-function: ease-in-out;
+	transition-duration: 800ms;
+	transform: rotate(360deg);
 }
 
 .delete-nodata{
@@ -352,13 +363,23 @@ h8 {
 	left: 2em;
 
 }
+.delete-nodata:hover{
+	transition-timing-function: ease-in-out;
+	transition-duration: 800ms;
+	transform: rotate(360deg);
+}
 .modify{
 	width: 30px;
 	height: 30px;
 	position: relative;
 	top: 0em;
-	left: 7em;
+	left: 9em;
 
+}
+.modify:hover{
+	transition-timing-function: ease-in-out;
+	transition-duration: 800ms;
+	transform: rotate(360deg);
 }
 .modify-nodata{
 	width: 30px;
@@ -366,9 +387,15 @@ h8 {
 	position: relative;
 	top: 0em;
 	left: 3em;
-
 }
-
+.modify-nodata:hover{
+	transition-timing-function: ease-in-out;
+	transition-duration: 800ms;
+	transform: rotate(360deg);
+}
+.nascosto-t {
+        display: none;
+    }
 
 /*-------MOBILE--------------------------*/
 
@@ -497,6 +524,57 @@ h8 {
         align-items: center;
         padding: 0;
     }
+	.delete{
+	width: 30px;
+	height: 30px;
+	position: relative;
+	top: -3em;
+	left: 4em;
+}
+	.delete:hover{
+	transition-timing-function: ease-in-out;
+	transition-duration: 800ms;
+	transform: rotate(360deg);
+}
+
+.delete-nodata{
+	width: 30px;
+	height: 30px;
+	position: relative;
+	top: 0em;
+	left: 4em;
+
+}
+	.delete-nodata:hover{
+	transition-timing-function: ease-in-out;
+	transition-duration: 800ms;
+	transform: rotate(360deg);
+}
+.modify{
+	width: 30px;
+	height: 30px;
+	position: relative;
+	top: -3em;
+	left: 5em;
+
+}
+.modify:hover{
+	transition-timing-function: ease-in-out;
+	transition-duration: 800ms;
+	transform: rotate(360deg);
+}
+.modify-nodata{
+	width: 30px;
+	height: 30px;
+	position: relative;
+	top: 0em;
+	left: 5em;
+}
+.modify-nodata:hover{
+	transition-timing-function: ease-in-out;
+	transition-duration: 800ms;
+	transform: rotate(360deg);
+}
 
 
 }
