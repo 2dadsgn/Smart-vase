@@ -153,7 +153,6 @@ def create_app(test_config=None):
             else:
                 vuoto.append(1)
 
-
         return render_template('gestione.html', username=session['username'],numero_sensori=numero_sensori,sensori=sensori,
                                data=actual_date, nomi_sensori=nomi_sensori,vuoto=vuoto)
 
