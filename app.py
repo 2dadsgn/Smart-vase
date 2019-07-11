@@ -1,9 +1,9 @@
-import datetime
 import os
 import time
 
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_pymongo import PyMongo
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 def create_app(test_config=None):
@@ -14,8 +14,6 @@ def create_app(test_config=None):
 
     app.config["MONGO_URI"] = "mongodb://localhost:27017/db-progetto"
     mongo = PyMongo(app)
-
-
 
     app.secret_key = b'_52ksaLF3Q8znxec]/'
 
@@ -54,9 +52,9 @@ def create_app(test_config=None):
             return render_template('index.html', error_name=error)
 
         else :
-            if db_username['password'] == password:
+            if check_password_hash(db_username['password'], password):
                 session['username']=username
-                return redirect(url_for('gestione_get_user', username=username))
+                return redirect(url_for('gestione'))
             else:
                 error = 'password errata'
                 return render_template('index.html', error=error)
@@ -74,62 +72,89 @@ def create_app(test_config=None):
         return  render_template('index.html')
 
     #route per la pagina sessione attiva gestione sensori
-    @app.route('/gestione/session?<username>', methods=['POST','GET'])
-    def gestione_get_user(username):
+    @app.route('/gestione')
+    def gestione():
 
-        username=session['username']
+        # effettuo controllo se la sessione è attiva, altrimenti reinderizzo a index
+        if not session['username']:
+            return render_template('index.html')
+
         user = mongo.db.utenti.find_one({"username":session['username']})
-        sensori = user["sensore"]
-        listasensori = []
-        for x in sensori :
-            listasensori.append(x)
-            print(x)
+
 
         #this way i get the actuale date and time
-        now = datetime.datetime.now()
-        actual_date = now.strftime("%Y-%m-%d")
-        actual_month= now.strftime("%Y-%m")
+        #now = datetime.datetime.now()
+        # actual_date = now.strftime("%Y-%m-%d")
+        # actual_month= now.strftime("%Y-%m")
+
+        #------RICORDARSI DI CANCELLARE QUESTA RIGA DI CODICE--------
+        actual_date = "2019-07-05"
+        actual_month = "2019-07"
+        #------------------------------------------------------------
 
 
-        #this gets the mongoDB's cursor onto the data inserted by the specific sensor
-        #for the actual day and it sorts them
-        try:
-            daysdata = mongo.db.sensori.find({"data":actual_date}).sort("time",-1)
-
-        except:
-            print("**-errore nella ricerca sensori per utente--*")
-
-        #select su dati del mese
-        try:
-            monthsdata = mongo.db.sensori.find({"data": { "$gt": actual_month }, "time" :{ "$regex": "12"}}).sort("time",-1)
-        except:
-            print("**-errore su ricerca dati del mese*-*")
-        dictionaryday = []
-        dictionarymonth = []
-        arraysensore = []
         listasensori = []
 
-        #select last data
-        for x in daysdata:
-            dictionaryday.append(x)
+        # array for the month's and day's data
+        dati_sensore_del_day = []
+        dati_sensore_del_mese = []
 
-        # select last data
-        for x in monthsdata:
-            dictionarymonth.append(x)
+        # array to store sennsor's data
+        dati_sensore = []
 
-        arraysensore.append(dictionaryday)
-        arraysensore.append(dictionarymonth)
+        # latest array to store data in
+        sensori = []
 
-        listasensori.append(arraysensore)
+        # sensor's names list
+        nomi_sensori = []
 
-       
+        # with a serie of FOR cicle I'm gonna create a multidimensional array
+        # to store all the sensors and all their data
+        for x in user["sensore"] :
+            listasensori.append(x["code"])
+            nomi_sensori.append(x["name"])
 
+        # variabile passata a jinja per iterare i form dei sensori
+        numero_sensori = len(listasensori)
 
+        # FOR cycle to can create a multidimensional array that can store all the sensor's data
+        #  organized in each array's cell  dayily data s array & monthly data s array go into two
+        #  separeted cells ---> dati_sensore                 _         _          _ _ _ _ _
+        # dati_sensore array  go into -----> sensori array  |_| -|--> |_|  --->  |_|_|_|_|_|  daily data  array
+        #                                                   | |  '--> |_|  -      _ _ _ _ _
+        #                                                                   '--> |_|_|_|_|_|  monthly data array
+        for i in listasensori :
+            print(i)
+            cursor_day = mongo.db.sensori.find({"code":i, "data":actual_date}).sort("time",-1)
+            cursor_month = mongo.db.sensori.find({"code": i, "data": { "$gt": actual_month }}).sort("data",1)
 
+            for c in cursor_day :
+                # lista che contiente tutti dati raccolti dal sensore
+                dati_sensore_del_day.append(c)
+            for c in cursor_month :
+                # lista che contiente tutti dati raccolti dal sensore
+                dati_sensore_del_mese.append(c)
+            # lista che contiente tutti i dati di tutti i sensori, ogni sensore ha un index
+            dati_sensore.append(dati_sensore_del_day.copy())
+            dati_sensore.append(dati_sensore_del_mese.copy())
+            sensori.append(dati_sensore.copy())
+            dati_sensore.clear()
+            dati_sensore_del_mese.clear()
+            dati_sensore_del_day.clear()
 
-        return render_template('gestione.html',daytemp=dictionaryday, monthtemp=dictionarymonth, username=username,
-                               listasensori=listasensori)
+        vuoto = []
+        # FOR cycle to controll if sensor's data are available in the DB
+        for i in user['sensore']:
+            cursor_day = mongo.db.sensori.find_one({"code":i['code'], "data":actual_date})
 
+            print(cursor_day)
+            if cursor_day == None:
+                vuoto.append(0)
+            else:
+                vuoto.append(1)
+
+        return render_template('gestione.html', username=session['username'],numero_sensori=numero_sensori,sensori=sensori,
+                               data=actual_date, nomi_sensori=nomi_sensori,vuoto=vuoto)
 
 
     @app.route('/register')
@@ -151,7 +176,7 @@ def create_app(test_config=None):
         if result==None :
             if  password==password_repeat:
                 mongo.db.utenti.insert_one({"username":username,
-                                            "password":password,
+                                            "password":generate_password_hash(password),
                                            "sensore": [{
                                                "code":code_sensor,
                                                "name":plantsname
@@ -164,6 +189,46 @@ def create_app(test_config=None):
         else :
             error = 'user already registered'
             return render_template('register.html', error_username=error)
+
+    @app.route('/addnewplant')
+    def addnewplant():
+        return render_template('add-new-plant.html')
+
+    @app.route('/adding', methods=['POST','GET'])
+    def add_plant():
+        plantsname = request.form['plantsname']
+        code = request.form['sensorcode']
+        mongo.db.utenti.update_one({"username": session['username']}, {"$push": {"sensore":{"code":code, "name":plantsname}}})
+        return redirect(url_for('gestione'))
+
+    @app.route('/deleting')
+    def delete_sensor():
+        return render_template('delete-sensor.html')
+
+    @app.route('/delete', methods=['POST', 'GET'])
+    def delete():
+        plantsname = request.form['plantsname']
+        code = request.form['sensorcode']
+        mongo.db.utenti.update_one({"username": session['username']},
+                                   {"$pull": {"sensore": {"code": code, "name": plantsname}}})
+        return redirect(url_for('gestione'))
+
+    @app.route('/modifying')
+    def modify_sensor():
+        return render_template('modify-sensor.html')
+
+    @app.route('/modify', methods=['POST', 'GET'])
+    def modify():
+        plantsname = request.form['plantsname']
+        code = request.form['sensorcode']
+        mongo.db.utenti.update_one({"username": session['username'],"sensore":["name"]},
+                                   {"$set": {"sensore": {"code": code, "name": plantsname}}})
+        return redirect(url_for('gestione'))
+
+    @app.errorhandler(404)
+    def page_not_found():
+        return render_template('404.html')
+
 
 
 
