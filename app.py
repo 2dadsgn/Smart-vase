@@ -201,6 +201,18 @@ def create_app(test_config=None):
         mongo.db.utenti.update_one({"username": session['username']}, {"$push": {"sensore":{"code":code, "name":plantsname}}})
         return redirect(url_for('gestione'))
 
+    @app.route('/deleting')
+    def delete_sensor():
+        return render_template('delete-sensor.html')
+
+    @app.route('/delete', methods=['POST', 'GET'])
+    def delete():
+        plantsname = request.form['plantsname']
+        code = request.form['sensorcode']
+        mongo.db.utenti.update_one({"username": session['username']},
+                                   {"$pull": {"sensore": {"code": code, "name": plantsname}}})
+        return redirect(url_for('gestione'))
+
     @app.errorhandler(404)
     def page_not_found():
         return render_template('404.html')

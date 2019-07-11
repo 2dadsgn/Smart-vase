@@ -336,9 +336,22 @@ h8 {
     align-content: center;
     align-items: center;
 }
+.delete{
+	width: 30px;
+	height: 30px;
+	position: relative;
+	top: -3em;
+	left: 7em;
+}
 
+.delete-nodata{
+	width: 30px;
+	height: 30px;
+	position: relative;
+	top: -3em;
+	left: 3em;
 
-
+}
 
 
 /*-------MOBILE--------------------------*/
