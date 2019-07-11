@@ -213,6 +213,18 @@ def create_app(test_config=None):
                                    {"$pull": {"sensore": {"code": code, "name": plantsname}}})
         return redirect(url_for('gestione'))
 
+    @app.route('/modifying')
+    def modify_sensor():
+        return render_template('modify-sensor.html')
+
+    @app.route('/modify', methods=['POST', 'GET'])
+    def modify():
+        plantsname = request.form['plantsname']
+        code = request.form['sensorcode']
+        mongo.db.utenti.update_one({"username": session['username'],"sensore":["name"]},
+                                   {"$set": {"sensore": {"code": code, "name": plantsname}}})
+        return redirect(url_for('gestione'))
+
     @app.errorhandler(404)
     def page_not_found():
         return render_template('404.html')

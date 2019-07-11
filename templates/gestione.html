@@ -72,13 +72,24 @@
 
               {% endif %}
           {% if vuoto[i]==1 %}
-          <a class="col-md-1" href="{{ url_for('delete_sensor') }}">
-              <img class="delete" src="{{ url_for('static', filename = 'xxx.png') }}" >
-          </a>
+              <div class="col-md-1">
+                     <a class="col-6" href="{{ url_for('delete_sensor') }}">
+                          <img class="delete" src="{{ url_for('static', filename = 'xxx.png') }}" >
+                    </a>
+                     <a class="col-6" href="{{ url_for('modify_sensor') }}" >
+                         <img class="modify"  src="{{ url_for('static', filename = 'matita.png') }}" >
+                    </a>
+              </div>
+
            {% else %}
-              <a class="col-md-1" href="{{ url_for('delete_sensor') }}" >
-              <img class="delete-nodata"  src="{{ url_for('static', filename = 'xxx.png') }}" >
-              </a>
+             <div class="col-md-1">
+                     <a class="col-6" href="{{ url_for('delete_sensor') }}">
+                          <img class="delete-nodata" src="{{ url_for('static', filename = 'xxx.png') }}" >
+                    </a>
+                     <a class="col-6" href="{{ url_for('modify_sensor') }}" >
+                         <img class="modify-nodata"  src="{{ url_for('static', filename = 'matita.png') }}" >
+                    </a>
+              </div>
           {% endif %}
 
 

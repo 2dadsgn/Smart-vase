@@ -341,7 +341,7 @@ h8 {
 	height: 30px;
 	position: relative;
 	top: -3em;
-	left: 7em;
+	left: 6em;
 }
 
 .delete-nodata{
@@ -349,6 +349,22 @@ h8 {
 	height: 30px;
 	position: relative;
 	top: -3em;
+	left: 2em;
+
+}
+.modify{
+	width: 30px;
+	height: 30px;
+	position: relative;
+	top: 0em;
+	left: 7em;
+
+}
+.modify-nodata{
+	width: 30px;
+	height: 30px;
+	position: relative;
+	top: 0em;
 	left: 3em;
 
 }

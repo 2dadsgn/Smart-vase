@@ -1,0 +1,20 @@
+{%  extends 'base.html' %}
+
+{% block body %}
+
+      <div  class="container-fluid transition-main" id="container" >
+		  <div class="row" >
+			   <form action="{{ url_for('modify') }}" id="login" class="row" method="POST">
+				   <img class="img-responsive" src="{{ url_for('static', filename = 'logo.png') }}" width="50" height="50" alt="" style="margin: auto;margin-top: 2em;">
+				   <h2 class="col-12">Smart vase Project</h2>
+				   <h3 class="col-12" style="margin-top: 3vh">Plant's name</h3>
+				   <input class="input-text col-12" type="text" name="plantsname" value="">
+                   <p style="color: red;">{{ error_name }}</p>
+                   <h3 class="col-12">Sensor's unique code</h3>
+				   <input class="input-text col-md-12" type="text" name="sensorcode" value="">
+                   <p style="color: red;">{{ error }}</p>
+				   <input id="intasto" class="col-md-12" type="submit" value="Modify"><br>
+               </form>
+		  </div>
+	  </div>
+{% endblock %}
