@@ -26,16 +26,13 @@
 
           </form>
       <div class="inner-div">
-      {% if vuoto==0 %}
-
-            <h1 style="text-align: center;color: red;margin-top: 40vh;">No Data availables,<br>
-              are you sure your Smart vase is connected to the internet?</h1>
 
 
-      {% else %}
       {% for i in range(0,numero_sensori) %}
           <div class="row div-sensore">
+
               <h6 class="col-md-1 col-1">{{ nomi_sensori[i] }}</h6>
+          {% if vuoto[i]==1 %}
               <div class="col-md-1 col-1 freccia-sx-slider nascosto" onclick="click_sx()"></div>
               <div class="statistic col-md-6 col-12 activate nascosto"  id="chartContainer1"></div>
               <div class="statistic col-md-6 col-12 deactivate nascosto"  id="chartContainer2" style="width: 672px;height: 300px;"></div>
@@ -67,7 +64,13 @@
                       <h1 style="font-size: 1.4em;color:limegreen;text-align: center">EVERYTHING'S <br> OKAY!</h1>
 
                   {% endif %}
+
               </div>
+              {% else %}
+                  <h1 style="text-align: center;color: red;margin: auto">No Data availables,<br>
+                are you sure your Smart vase is connected to the internet?</h1>
+
+              {% endif %}
 
           </div>
       {% endfor %}
@@ -83,13 +86,12 @@
 </div>
 
 
-      {% endif %}
+
 
      </div>
-    {% if vuoto==0 %}
 
-    {% else %}
    {% for i in range(0,numero_sensori) %}
+       {% if vuoto[i]==1 %}
     <script type="text/javascript">
        window.onload = function () {
     var chart = new CanvasJS.Chart("chartContainer1",
@@ -169,8 +171,10 @@ chart.render();
 chart2.render();
 }
 </script>
+       {% else %}
+       {% endif %}
     {% endfor %}
-    {% endif %}
+
 
 
 {% endblock %}

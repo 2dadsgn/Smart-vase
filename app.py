@@ -117,13 +117,14 @@ def create_app(test_config=None):
         # variabile passata a jinja per iterare i form dei sensori
         numero_sensori = len(listasensori)
 
-        # FOR cycle to can creata a multidimensional array that can store all the sensor's data
+        # FOR cycle to can create a multidimensional array that can store all the sensor's data
         #  organized in each array's cell  dayily data s array & monthly data s array go into two
         #  separeted cells ---> dati_sensore                 _         _          _ _ _ _ _
         # dati_sensore array  go into -----> sensori array  |_| -|--> |_|  --->  |_|_|_|_|_|  daily data  array
         #                                                   | |  '--> |_|  -      _ _ _ _ _
         #                                                                   '--> |_|_|_|_|_|  monthly data array
         for i in listasensori :
+            print(i)
             cursor_day = mongo.db.sensori.find({"code":i, "data":actual_date}).sort("time",-1)
             cursor_month = mongo.db.sensori.find({"code": i, "data": { "$gt": actual_month }}).sort("data",1)
 
@@ -141,11 +142,16 @@ def create_app(test_config=None):
             dati_sensore_del_mese.clear()
             dati_sensore_del_day.clear()
 
-        cursor_day = mongo.db.sensori.find({"code":i, "data":actual_date}).sort("time",-1)
-        for c in cursor_day:
-            # lista che contiente tutti dati raccolti dal sensore
-            dati_sensore_del_day.append(c)
-        vuoto = len(dati_sensore_del_day)
+        vuoto = []
+        # FOR cycle to controll if sensor's data are available in the DB
+        for i in user['sensore']:
+            cursor_day = mongo.db.sensori.find_one({"code":i['code'], "data":actual_date})
+
+            print(cursor_day)
+            if cursor_day == None:
+                vuoto.append(0)
+            else:
+                vuoto.append(1)
 
 
         return render_template('gestione.html', username=session['username'],numero_sensori=numero_sensori,sensori=sensori,
