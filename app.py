@@ -2,6 +2,7 @@ import os
 import time
 
 from flask import Flask, render_template, request, redirect, url_for, session, abort
+from flask_mail import Mail, Message
 from flask_pymongo import PyMongo
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -16,6 +17,15 @@ def create_app(test_config=None):
     mongo = PyMongo(app)
 
     app.secret_key = b'_52ksaLF3Q8znxec]/'
+    mail = Mail(app)
+
+    app.config['MAIL_SERVER'] = 'out.virgilio.it'
+    app.config['MAIL_PORT'] = 465
+    app.config['MAIL_USERNAME'] = 'smartvaseprj@virgilio.it'
+    app.config['MAIL_PASSWORD'] = 'Grandma52'
+    app.config['MAIL_USE_TLS'] = False
+    app.config['MAIL_USE_SSL'] = True
+    mail = Mail(app)
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
@@ -44,19 +54,30 @@ def create_app(test_config=None):
 
         username = request.form['username']
         password = request.form['password']
+        token = request.form['token']
         db_username = mongo.db.utenti.find_one({'username': username})
         print(db_username)
         error = None
         if db_username== None :
-            error = 'Utente non registrato'
+            error = 'This user does not exist'
             return render_template('index.html', error_name=error)
 
         else :
             if check_password_hash(db_username['password'], password):
-                session['username']=username
-                return redirect(url_for('gestione'))
+                if db_username["confirmed"]==True:
+                    session['username']=username
+                    return redirect(url_for('gestione'))
+                else:
+                    if check_password_hash(db_username["token"],token):
+                        db_username['confirmed']=True
+                        session['username'] = username
+                        return redirect(url_for('gestione'))
+                    else:
+                        return redirect(url_for('sending_email'))
+
+
             else:
-                error = 'password errata'
+                error = 'Wrong password'
                 return render_template('index.html', error=error)
 
 
@@ -175,14 +196,20 @@ def create_app(test_config=None):
         result=mongo.db.utenti.find_one({"username":username})
         if result==None :
             if  password==password_repeat:
+                token = "abcd"
                 mongo.db.utenti.insert_one({"username":username,
                                             "password":generate_password_hash(password),
+                                            "confirmed":False,
+                                            "token": generate_password_hash(token),
                                            "sensore": [{
                                                "code":code_sensor,
                                                "name":plantsname
                                            }]
                                             })
-                return render_template('index.html')
+                msg = Message('Confirmation Code', sender='smartvaseprj@virgilio.it', recipients=['smartvaseprj@virgilio.it'])
+                msg.body = f"Hello from Smart vase prj, please copy and paste this code in the login page to confirm your identity --> {token} <--  "
+                mail.send(msg)
+                return render_template("index.html", confirmed=False)
             else:
                 error = 'passwords do not match'
                 return render_template('register.html', error_pass=error)
@@ -190,9 +217,25 @@ def create_app(test_config=None):
             error = 'user already registered'
             return render_template('register.html', error_username=error)
 
+
+
+    @app.route("/sendingemail")
+    def sending_email():
+        username=request.form['username']
+        result = mongo.db.utenti.find_one({"username": username})
+        token = "abcd"
+        result["token"]=generate_password_hash(token)
+        msg = Message('Confirmation Code', sender='smartvaseprj@virgilio.it', recipients=['smartvaseprj@virgilio.it'])
+        msg.body = f"Hello from Smart vase prj, please copy and paste this code in the login page to confirm your identit {token} "
+        mail.send(msg)
+        error="Check your email address"
+        return render_template("index.html",confirmed=False)
+
+
     @app.route('/addnewplant')
     def addnewplant():
         return render_template('add-new-plant.html')
+
 
     @app.route('/adding', methods=['POST','GET'])
     def add_plant():
@@ -202,9 +245,12 @@ def create_app(test_config=None):
                                    ,upsert=True)
         return redirect(url_for('gestione'))
 
+
     @app.route('/deleting')
     def delete_sensor():
         return render_template('delete-sensor.html')
+
+
 
     @app.route('/delete', methods=['POST', 'GET'])
     def delete():
@@ -214,9 +260,13 @@ def create_app(test_config=None):
                                    {"$pull": {"sensore": {"code": code, "name": plantsname}}})
         return redirect(url_for('gestione'))
 
+
+
     @app.route('/modifying')
     def modify_sensor():
         return render_template('modify-sensor.html')
+
+
 
     @app.route('/modify', methods=['POST', 'GET'])
     def modify():
@@ -225,6 +275,8 @@ def create_app(test_config=None):
         mongo.db.utenti.update_one({"username": session['username']},
                                    {"$set": {"sensore": [{"code": code, "name": plantsname}]}})
         return redirect(url_for('gestione'))
+
+
 
     @app.route('/errore')
     def errore():

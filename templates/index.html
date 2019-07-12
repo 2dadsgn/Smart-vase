@@ -12,6 +12,13 @@
                    <p style="color: red;">{{ error_name }}</p>
                    <h3 class="col-12">Password</h3>
 				   <input class="input-text col-md-12" type="password" name="password" value="">
+                   {% if confirmed == False %}
+
+                       <h3 class="col-12">Confirmation code</h3>
+				       <input class="input-text col-md-12" type="text" name="token" value="">
+                       <p style="color: red;">Check your email address</p>
+
+                   {% endif %}
                    <p style="color: red;">{{ error }}</p>
 				   <input id="intasto" class="col-md-12" type="submit" value="Login"><br>
 				   <a class="col-12" href="{{ url_for('register') }}" style="margin-top: 0.2 em;">
