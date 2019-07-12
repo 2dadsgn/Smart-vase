@@ -31,12 +31,12 @@
       {% for i in range(0,numero_sensori) %}
           <div class="row div-sensore">
 
-              <h6 class="col-md-1 col-1">{{ nomi_sensori[i] }}</h6>
+              <h6 class="col-md-1 col-12">{{ nomi_sensori[i] }}</h6>
           {% if vuoto[i]==1 %}
-              <div class="col-md-1 col-1 freccia-sx-slider nascosto" onclick="click_sx()"></div>
-              <div class="statistic col-md-5 col-12 activate nascosto"  id="chartContainer1"></div>
+              <div class="col-md-1 col-1 freccia-sx-slider nascosto-t" onclick="click_sx()" id="frecciasx"></div>
+              <div class="statistic col-md-5 col-12 activate nascosto"  id="chartContainer1" ></div>
               <div class="statistic col-md-5 col-12 deactivate nascosto"  id="chartContainer2" style="width: 672px;height: 300px;"></div>
-              <div class="col-md-1 col-1 freccia-dx-slider nascosto" onclick="click_dx()"></div>
+              <div class="col-md-1 col-1 freccia-dx-slider nascosto" onclick="click_dx()" id="frecciadx"></div>
               <div class="col-md-2 col-12 status" style="align-content: center;text-align: center;">
 
 
@@ -67,12 +67,12 @@
 
               </div>
               {% else %}
-                  <h1 class="col-md-10" style="text-align: center;color: red;margin: auto">No Data availables,<br>
+                  <h1 class="col-md-10 col-10" style="text-align: center;color: red;margin: auto">No Data availables,<br>
                 are you sure your Smart vase is connected to the internet?</h1>
 
               {% endif %}
           {% if vuoto[i]==1 %}
-              <div class="col-md-1">
+              <div class="col-md-1 col-12">
                      <a class="col-6" href="{{ url_for('delete_sensor') }}">
                           <img class="delete" src="{{ url_for('static', filename = 'xxx.png') }}" >
                     </a>
@@ -82,7 +82,7 @@
               </div>
 
            {% else %}
-             <div class="col-md-1">
+             <div class="col-md-1 -col-12">
                      <a class="col-6" href="{{ url_for('delete_sensor') }}">
                           <img class="delete-nodata" src="{{ url_for('static', filename = 'xxx.png') }}" >
                     </a>

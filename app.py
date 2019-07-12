@@ -1,7 +1,7 @@
 import os
 import time
 
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, abort
 from flask_pymongo import PyMongo
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -198,7 +198,8 @@ def create_app(test_config=None):
     def add_plant():
         plantsname = request.form['plantsname']
         code = request.form['sensorcode']
-        mongo.db.utenti.update_one({"username": session['username']}, {"$push": {"sensore":{"code":code, "name":plantsname}}})
+        mongo.db.utenti.update_one({"username": session['username']}, {"$push": {"sensore":{"code":code, "name":plantsname}}}
+                                   ,upsert=True)
         return redirect(url_for('gestione'))
 
     @app.route('/deleting')
@@ -221,13 +222,20 @@ def create_app(test_config=None):
     def modify():
         plantsname = request.form['plantsname']
         code = request.form['sensorcode']
-        mongo.db.utenti.update_one({"username": session['username'],"sensore":["name"]},
-                                   {"$set": {"sensore": {"code": code, "name": plantsname}}})
+        mongo.db.utenti.update_one({"username": session['username']},
+                                   {"$set": {"sensore": [{"code": code, "name": plantsname}]}})
         return redirect(url_for('gestione'))
 
+    @app.route('/errore')
+    def errore():
+        abort(404)
+
+
+
+
     @app.errorhandler(404)
-    def page_not_found():
-        return render_template('404.html')
+    def page_not_found(error):
+        return render_template('404.html'),404
 
 
 
