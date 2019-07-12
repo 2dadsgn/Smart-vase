@@ -21,12 +21,12 @@
 
 #login{
 	width: 30.5vw;
-	height: 57vh;
+	height: 67vh;
 	margin: auto;	
 	text-align: center;
 	margin-top: 10vh;
 	background-color: hsla(0,0%,0%,0.61);
-	padding:  0;
+	padding:  0 0 0 0 ;
 	border:50px medium white;
 	border-radius: 10px;
 	box-shadow: 0 6px 10px 0 rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.3);
@@ -35,10 +35,10 @@
 #register{
 	display: inline;
 	width: 30.5vw;
-	height: 72vh;
+	height: 90vh;
 	margin: auto;
 	text-align: center;
-	margin-top: 5vh;
+	margin-top: 0vh;
 	background-color: hsla(0,0%,0%,0.61);
 	padding:  0.5em 3.5em 0.5em 3.5em;
 	border:50px medium white;

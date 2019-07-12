@@ -4,6 +4,7 @@ import time
 from flask import Flask, render_template, request, redirect, url_for, session, abort
 from flask_mail import Mail, Message
 from flask_pymongo import PyMongo
+from random_password import random_password
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
@@ -54,27 +55,30 @@ def create_app(test_config=None):
 
         username = request.form['username']
         password = request.form['password']
-        token = request.form['token']
         db_username = mongo.db.utenti.find_one({'username': username})
-        print(db_username)
         error = None
+
         if db_username== None :
             error = 'This user does not exist'
             return render_template('index.html', error_name=error)
 
         else :
             if check_password_hash(db_username['password'], password):
+
                 if db_username["confirmed"]==True:
-                    session['username']=username
+
+                    session['username'] = username
                     return redirect(url_for('gestione'))
                 else:
+                    token = request.form['token']
                     if check_password_hash(db_username["token"],token):
-                        db_username['confirmed']=True
+
+                        mongo.db.utenti.update_one({'username': username},{"$set": { "confirmed": True }} )
                         session['username'] = username
                         return redirect(url_for('gestione'))
                     else:
-                        return redirect(url_for('sending_email'))
-
+                        error="Wrong confirmation code"
+                        return render_template('index.html',error=error,confirmed=False)
 
             else:
                 error = 'Wrong password'
@@ -189,6 +193,7 @@ def create_app(test_config=None):
     def register_insert():
         error=None
         username=request.form['username']
+        email = request.form['email']
         password= request.form['password']
         password_repeat = request.form['password_repeat']
         code_sensor = request.form['code']
@@ -196,8 +201,9 @@ def create_app(test_config=None):
         result=mongo.db.utenti.find_one({"username":username})
         if result==None :
             if  password==password_repeat:
-                token = "abcd"
+                token = random_password(length=4, characters=['a','b','c','d','e','f','g','h','i','1','2','3','4','5','6'])
                 mongo.db.utenti.insert_one({"username":username,
+                                            "email":email,
                                             "password":generate_password_hash(password),
                                             "confirmed":False,
                                             "token": generate_password_hash(token),
@@ -206,10 +212,13 @@ def create_app(test_config=None):
                                                "name":plantsname
                                            }]
                                             })
-                msg = Message('Confirmation Code', sender='smartvaseprj@virgilio.it', recipients=['smartvaseprj@virgilio.it'])
-                msg.body = f"Hello from Smart vase prj, please copy and paste this code in the login page to confirm your identity --> {token} <--  "
-                mail.send(msg)
-                return render_template("index.html", confirmed=False)
+                try:
+                    msg = Message('Confirmation Code', sender='smartvaseprj@virgilio.it', recipients=[email])
+                    msg.body = f"Hello from Smart vase prj, please copy and paste this code in the login page to confirm your identity --> {token} <--  "
+                    mail.send(msg)
+                    return render_template("index.html", confirmed=False)
+                except:
+                    return render_template("register.html",error_email="Email not valid")
             else:
                 error = 'passwords do not match'
                 return render_template('register.html', error_pass=error)
