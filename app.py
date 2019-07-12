@@ -23,7 +23,7 @@ def create_app(test_config=None):
     app.config['MAIL_SERVER'] = 'out.virgilio.it'
     app.config['MAIL_PORT'] = 465
     app.config['MAIL_USERNAME'] = 'smartvaseprj@virgilio.it'
-    app.config['MAIL_PASSWORD'] = 'Grandma52'
+    app.config['MAIL_PASSWORD'] = 'progettodb52'
     app.config['MAIL_USE_TLS'] = False
     app.config['MAIL_USE_SSL'] = True
     mail = Mail(app)
@@ -70,19 +70,71 @@ def create_app(test_config=None):
                     session['username'] = username
                     return redirect(url_for('gestione'))
                 else:
-                    token = request.form['token']
-                    if check_password_hash(db_username["token"],token):
+                    try:
+                        token = request.form['token']
+                        if check_password_hash(db_username["token"], token):
 
-                        mongo.db.utenti.update_one({'username': username},{"$set": { "confirmed": True }} )
-                        session['username'] = username
-                        return redirect(url_for('gestione'))
-                    else:
-                        error="Wrong confirmation code"
-                        return render_template('index.html',error=error,confirmed=False)
+                            mongo.db.utenti.update_one({'username': username}, {"$set": {"confirmed": True}})
+                            session['username'] = username
+                            return redirect(url_for('gestione'))
+                        else:
+                            error = "Wrong confirmation code"
+                            return render_template('index.html', error=error, confirmed=False)
+                    except:
+                        session["username"]=username
+                        return redirect(url_for("sending_email"))
+
 
             else:
                 error = 'Wrong password'
                 return render_template('index.html', error=error)
+
+    @app.route('/confirm_email')
+    def confirm_email():
+        return render_template('confirm_address.html')
+
+    @app.route('/changing_password',methods=['POST'])
+    def changing_password():
+        email = request.form['email']
+        token = random_password(length=4, characters=['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', '1', '2', '3', '4', '5', '6'])
+        mongo.db.utenti.update_one({"email":email},
+                                   {"$set": {"token": generate_password_hash(token)}})
+        result = mongo.db.utenti.find_one({"email": email})
+
+        try:
+            msg = Message('Confirmation Code', sender='smartvaseprj@virgilio.it', recipients=[email])
+            msg.body = f"Hello from Smart vase prj, please copy and paste this code in the login page to confirm your identity --> {token} <--  "
+            mail.send(msg)
+            return render_template('change_password.html')
+        except:
+            error="Email not valid"
+            return render_template('confirm_address.html',error=error)
+
+
+
+    @app.route('/change_password',methods=['POST'])
+    def change_password():
+        username = request.form['username']
+        newpassword = request.form['newpassword']
+        newpasswordrepeat = request.form['newpasswordrepeat']
+        token = request.form['token']
+        result = mongo.db.utenti.find_one({"username": username})
+        if result == None :
+            error="This user is not registered"
+            return render_template("change_password.html",error=error)
+        else:
+            if newpassword == newpasswordrepeat:
+
+                if check_password_hash(result["token"], token):
+                    mongo.db.utenti.update_one({"username": username},
+                                               {"$set": {"password": generate_password_hash(newpassword)}})
+                    return redirect(url_for('index'))
+                else:
+                    error = "Confirmation Code not valid"
+                    return render_template("change_password.html", error=error)
+            else:
+                error = "Passwords do not match"
+                return render_template("change_password.html", error=error)
 
 
     @app.route('/logging_out')
@@ -201,7 +253,7 @@ def create_app(test_config=None):
         result=mongo.db.utenti.find_one({"username":username})
         if result==None :
             if  password==password_repeat:
-                token = random_password(length=4, characters=['a','b','c','d','e','f','g','h','i','1','2','3','4','5','6'])
+                token = random_password(length=4, characters=['A','B','C','D','E','F','G','H','I','1','2','3','4','5','6'])
                 mongo.db.utenti.insert_one({"username":username,
                                             "email":email,
                                             "password":generate_password_hash(password),
@@ -214,10 +266,11 @@ def create_app(test_config=None):
                                             })
                 try:
                     msg = Message('Confirmation Code', sender='smartvaseprj@virgilio.it', recipients=[email])
-                    msg.body = f"Hello from Smart vase prj, please copy and paste this code in the login page to confirm your identity --> {token} <--  "
+                    msg.body = f"Hello {username} from Smart vase prj, please copy and paste this code in the login page to confirm your identity --> {token} <--  "
                     mail.send(msg)
                     return render_template("index.html", confirmed=False)
                 except:
+                    mongo.db.utenti.delete_one({"username":username})
                     return render_template("register.html",error_email="Email not valid")
             else:
                 error = 'passwords do not match'
@@ -230,14 +283,14 @@ def create_app(test_config=None):
 
     @app.route("/sendingemail")
     def sending_email():
-        username=request.form['username']
-        result = mongo.db.utenti.find_one({"username": username})
-        token = "abcd"
-        result["token"]=generate_password_hash(token)
-        msg = Message('Confirmation Code', sender='smartvaseprj@virgilio.it', recipients=['smartvaseprj@virgilio.it'])
-        msg.body = f"Hello from Smart vase prj, please copy and paste this code in the login page to confirm your identit {token} "
+        token = random_password(length=4, characters=['A','B','C','D','E','F','G','H','I','1','2','3','4','5','6'])
+        mongo.db.utenti.update_one({"username": session['username']},
+                                   {"$set": {"token":generate_password_hash(token)}})
+        result=mongo.db.utenti.find_one({"username":session["username"]})
+        msg = Message('Confirmation Code', sender='smartvaseprj@virgilio.it', recipients=(result["email"]))
+        msg.body = f"Hello {session['username']} from Smart vase prj, please copy and paste this code in the login page to confirm your identity --> {token} <--  "
         mail.send(msg)
-        error="Check your email address"
+        session.pop('username',None)
         return render_template("index.html",confirmed=False)
 
 
