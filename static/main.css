@@ -26,7 +26,7 @@
 	text-align: center;
 	margin-top: 10vh;
 	background-color: hsla(0,0%,0%,0.61);
-	padding:  0 0 0 0 ;
+	padding:  2vh 0 0 0 ;
 	border:50px medium white;
 	border-radius: 10px;
 	box-shadow: 0 6px 10px 0 rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.3);
@@ -170,6 +170,9 @@ h6{
 }
 .error{
 	color: red;
+	font-size: 1.4em;
+	text-align: center;
+	text-transform: uppercase;
 
 }
 
@@ -307,6 +310,7 @@ h6{
 }
 .inner-div{
 	position: static;
+	padding-top:10vh;
 }
 .plus{
     margin-left:6vw;
@@ -574,6 +578,10 @@ h8 {
 	transition-timing-function: ease-in-out;
 	transition-duration: 800ms;
 	transform: rotate(360deg);
+}
+.inner-div{
+	position: static;
+	padding-top:15vh;
 }
 
 

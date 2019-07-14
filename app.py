@@ -164,9 +164,11 @@ def create_app(test_config=None):
         # actual_date = now.strftime("%Y-%m-%d")
         # actual_month= now.strftime("%Y-%m")
 
+        #smart vase is not connected yet so i cant get up to date data
+        #so i m using a fake date to fetch data from DB
         #------RICORDARSI DI CANCELLARE QUESTA RIGA DI CODICE--------
-        actual_date = "2019-07-05"
-        actual_month = "2019-07"
+        actual_date = "2019-06-30"
+        actual_month = "2019-06"
         #------------------------------------------------------------
 
 
@@ -279,8 +281,7 @@ def create_app(test_config=None):
             error = 'user already registered'
             return render_template('register.html', error_username=error)
 
-
-
+    # route to can send emails with the verification code
     @app.route("/sendingemail")
     def sending_email():
         token = random_password(length=4, characters=['A','B','C','D','E','F','G','H','I','1','2','3','4','5','6'])
@@ -293,12 +294,12 @@ def create_app(test_config=None):
         session.pop('username',None)
         return render_template("index.html",confirmed=False)
 
-
+    #route to can add a new plant's tab in the managing page
     @app.route('/addnewplant')
     def addnewplant():
         return render_template('add-new-plant.html')
 
-
+    # route to can add a new plant's tab in the managing page
     @app.route('/adding', methods=['POST','GET'])
     def add_plant():
         plantsname = request.form['plantsname']
@@ -307,13 +308,12 @@ def create_app(test_config=None):
                                    ,upsert=True)
         return redirect(url_for('gestione'))
 
-
+    # route to can delete a plant's tabe in the managing page
     @app.route('/deleting')
     def delete_sensor():
         return render_template('delete-sensor.html')
 
-
-
+    # route to can delete a plant's tabe in the managing page
     @app.route('/delete', methods=['POST', 'GET'])
     def delete():
         plantsname = request.form['plantsname']
@@ -322,14 +322,12 @@ def create_app(test_config=None):
                                    {"$pull": {"sensore": {"code": code, "name": plantsname}}})
         return redirect(url_for('gestione'))
 
-
-
+    # route to can modify a plant's tabe in the managing page
     @app.route('/modifying')
     def modify_sensor():
         return render_template('modify-sensor.html')
 
-
-
+    # route to can modify a plant's tabe in the managing page
     @app.route('/modify', methods=['POST', 'GET'])
     def modify():
         plantsname = request.form['plantsname']
