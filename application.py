@@ -60,7 +60,7 @@ def create_app(test_config=None):
 
         if db_username== None :
             error = 'This user does not exist'
-            return render_template('index.html', error_name=error)
+            return render_template('index.html', error_name=error,confirmed=False)
 
         else :
             if check_password_hash(db_username['password'], password):
