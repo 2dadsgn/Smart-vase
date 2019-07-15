@@ -59,8 +59,8 @@ def create_app(test_config=None):
         error = None
 
         if db_username== None :
-            error = 'This user does not exist'
-            return render_template('index.html', error_name=error,confirmed=False)
+            return redirect(url_for('sending_email'))
+
 
         else :
             if check_password_hash(db_username['password'], password):
@@ -69,6 +69,7 @@ def create_app(test_config=None):
 
                     session['username'] = username
                     return redirect(url_for('gestione'))
+
                 else:
                     try:
                         token = request.form['token']
@@ -270,6 +271,7 @@ def create_app(test_config=None):
                     msg = Message('Confirmation Code', sender='smartvaseprj@virgilio.it', recipients=[email])
                     msg.body = f"Hello {username} from Smart vase prj, please copy and paste this code in the login page to confirm your identity --> {token} <--  "
                     mail.send(msg)
+                    print(msg)
                     return render_template("index.html", confirmed=False)
                 except:
                     mongo.db.utenti.delete_one({"username":username})
@@ -288,8 +290,9 @@ def create_app(test_config=None):
         mongo.db.utenti.update_one({"username": session['username']},
                                    {"$set": {"token":generate_password_hash(token)}})
         result=mongo.db.utenti.find_one({"username":session["username"]})
-        msg = Message('Confirmation Code', sender='smartvaseprj@virgilio.it', recipients=(result["email"]))
+        msg = Message('Confirmation Code', sender='smartvaseprj@virgilio.it', recipients=[result["email"]])
         msg.body = f"Hello {session['username']} from Smart vase prj, please copy and paste this code in the login page to confirm your identity --> {token} <--  "
+        print(msg)
         mail.send(msg)
         session.pop('username',None)
         return render_template("index.html",confirmed=False)
