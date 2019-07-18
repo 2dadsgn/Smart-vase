@@ -42,15 +42,15 @@
               <div class="col-md-2 col-12 status" style="align-content: center;text-align: center;">
 
 
-                  {% if sensori[i][0][0]['light']=='False' or sensori[i][0][0]['water']=='False' %}
+                  {% if ultimi_dati[i]['light']=='False' or ultimi_dati[i]['water']=='False' %}
 
                          <img  src="{{ url_for('static', filename = 'sad-plant.png') }}" class="sad-plant"  >
 
-                      {% if sensori[i][0][0]['light']=='False' and sensori[i][0][0]['water']=='False' %}
+                      {% if ultimi_dati[i]['light']=='False' and sensori[i][0][0]['water']=='False' %}
 
                           <p class="error-data">Your plant needs water  and light </p>
 
-                      {% elif sensori[i][0][0]['water']=='False' %}
+                      {% elif ultimi_dati[i]['water']=='False' %}
 
                            <p class="error-data">Your plant needs water </p>
 

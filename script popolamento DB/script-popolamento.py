@@ -7,7 +7,7 @@ db = client['db-progetto']
 collezione = db.sensori
 list = ["True","False"]
 
-for x in range(1,29):
+for x in range(1,30):
 
     actual_date= f"2019-06-{x}"
     temperatura = random.randint(20,35)
@@ -27,7 +27,7 @@ for x in range(1,29):
 
     collezione.insert_one(dato)
 
-for x in range(6,23):
+for x in range(10,24):
 
     actual_time= f"{x}:00"
     temperatura = random.randint(20,35)
@@ -36,8 +36,8 @@ for x in range(6,23):
     water = random.choice(list)
     light = random.choice(list)
     dato= {
-        'water': water,
-        'light': light,
+        'water': "True",
+        'light': "True",
         'external temperature': temperatura,
         'external humidity': umidita,
         'data': actual_date,
@@ -46,4 +46,3 @@ for x in range(6,23):
     }
 
     collezione.insert_one(dato)
-    
