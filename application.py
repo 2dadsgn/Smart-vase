@@ -14,6 +14,7 @@ def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
 
+
     app.config["MONGO_URI"] = "mongodb://localhost:27017/db-progetto"
     mongo = PyMongo(app)
 
@@ -59,7 +60,8 @@ def create_app(test_config=None):
         error = None
 
         if db_username== None :
-            return redirect(url_for('sending_email'))
+            error="User not registered"
+            return render_template('index.html', error_name=error)
 
 
         else :
@@ -188,6 +190,9 @@ def create_app(test_config=None):
         # sensor's names list
         nomi_sensori = []
 
+        # sensor's names list
+        ultimi_dati = []
+
         # with a serie of FOR cicle I'm gonna create a multidimensional array
         # to store all the sensors and all their data
         for x in user["sensore"] :
@@ -204,13 +209,19 @@ def create_app(test_config=None):
         #                                                   | |  '--> |_|  -      _ _ _ _ _
         #                                                                   '--> |_|_|_|_|_|  monthly data array
         for i in listasensori :
-            print(i)
-            cursor_day = mongo.db.sensori.find({"code":i, "data":actual_date}).sort("time",-1)
+
+            ultimo_dato = mongo.db.sensori.find({"code": i}).sort("_id",-1)
+            ultimi_dati.append(ultimo_dato[0])
+
+            cursor_day = mongo.db.sensori.find({"code":i, "data":actual_date}).sort("time",1)
+
+
             cursor_month = mongo.db.sensori.find({"code": i, "data": { "$gt": actual_month }}).sort("data",1)
 
             for c in cursor_day :
                 # lista che contiente tutti dati raccolti dal sensore
                 dati_sensore_del_day.append(c)
+
             for c in cursor_month :
                 # lista che contiente tutti dati raccolti dal sensore
                 dati_sensore_del_mese.append(c)
@@ -223,18 +234,18 @@ def create_app(test_config=None):
             dati_sensore_del_day.clear()
 
         vuoto = []
+
         # FOR cycle to controll if sensor's data are available in the DB
         for i in user['sensore']:
             cursor_day = mongo.db.sensori.find_one({"code":i['code'], "data":actual_date})
 
-            print(cursor_day)
             if cursor_day == None:
                 vuoto.append(0)
             else:
                 vuoto.append(1)
 
         return render_template('gestione.html', username=session['username'],numero_sensori=numero_sensori,sensori=sensori,
-                               data=actual_date, nomi_sensori=nomi_sensori,vuoto=vuoto)
+                               data=actual_date, nomi_sensori=nomi_sensori,vuoto=vuoto,ultimi_dati=ultimi_dati)
 
 
     @app.route('/register')
