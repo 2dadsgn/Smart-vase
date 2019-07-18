@@ -406,10 +406,9 @@ h8 {
     #login {
         display: inline;
         width: 80.5vw;
-        height: 82vh;
+        height: 43em;
         margin: auto;
         text-align: center;
-
         background-color: hsla(0, 0%, 0%, 0.61);
         padding: 0.5em 3.5em 0.5em 3.5em;
         border: 50px medium white;

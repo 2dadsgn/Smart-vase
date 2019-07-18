@@ -14,6 +14,7 @@ def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
 
+
     app.config["MONGO_URI"] = "mongodb://localhost:27017/db-progetto"
     mongo = PyMongo(app)
 
@@ -59,7 +60,8 @@ def create_app(test_config=None):
         error = None
 
         if db_username== None :
-            return redirect(url_for('sending_email'))
+            error="User not registered"
+            return render_template('index.html', error_name=error)
 
 
         else :
