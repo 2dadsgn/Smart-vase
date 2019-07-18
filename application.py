@@ -209,9 +209,11 @@ def create_app(test_config=None):
         #                                                   | |  '--> |_|  -      _ _ _ _ _
         #                                                                   '--> |_|_|_|_|_|  monthly data array
         for i in listasensori :
-
-            ultimo_dato = mongo.db.sensori.find({"code": i}).sort("_id",-1)
-            ultimi_dati.append(ultimo_dato[0])
+            try:
+                ultimo_dato = mongo.db.sensori.find({"code": i}).sort("_id",-1)
+                ultimi_dati.append(ultimo_dato[0])
+            except:
+                ultimi_dati.append(0)
 
             cursor_day = mongo.db.sensori.find({"code":i, "data":actual_date}).sort("time",1)
 
