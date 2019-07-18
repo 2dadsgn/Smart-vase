@@ -36,8 +36,8 @@ for x in range(10,24):
     water = random.choice(list)
     light = random.choice(list)
     dato= {
-        'water': "True",
-        'light': "True",
+        'water': water,
+        'light': light,
         'external temperature': temperatura,
         'external humidity': umidita,
         'data': actual_date,
