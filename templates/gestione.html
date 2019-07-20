@@ -46,7 +46,7 @@
 
                          <img  src="{{ url_for('static', filename = 'sad-plant.png') }}" class="sad-plant"  >
 
-                      {% if ultimi_dati[i]['light']=='False' and sensori[i][0][0]['water']=='False' %}
+                      {% if ultimi_dati[i]['light']=='False' and ultimi_dati[i]['water']=='False' %}
 
                           <p class="error-data">Your plant needs water  and light </p>
 
