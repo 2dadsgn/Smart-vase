@@ -360,12 +360,20 @@ h8 {
     align-content: center;
     align-items: center;
 }
+.div-mod-del{
+	margin: auto;
+	align-content: center;
+	padding: 0 2em 0 5.5em;
+	position: relative;
+	left: 1em;
+	top: -9em;
+
+}
 .delete{
 	width: 30px;
 	height: 30px;
-	position: relative;
-	top: -3em;
-	left: 8em;
+
+
 }
 .delete:hover{
 	transition-timing-function: ease-in-out;
@@ -376,10 +384,8 @@ h8 {
 .modify{
 	width: 30px;
 	height: 30px;
-	position: relative;
-	top: 0em;
-	left: 9em;
-
+	margin-left: 1em;
+	margin-top: 1em;
 }
 .modify:hover{
 	transition-timing-function: ease-in-out;
@@ -537,13 +543,14 @@ h8 {
 		margin: auto;
 		align-content: center;
 		padding: 0 2em 0 5.5em;
+		top: 2em;
+		left: -0.3em;
+
 	}
 	.delete{
 		width: 30px;
 		height: 30px;
-		position: static;
-		top:0;
-		left: 0;
+
 	}
 	.delete:hover{
 		transition-timing-function: ease-in-out;
@@ -553,9 +560,8 @@ h8 {
 	.modify{
 		width: 30px;
 		height: 30px;
-		position: static;
-		top: 0;
-		left: 0;
+		margin: 0;
+
 	}
 	.modify:hover{
 		transition-timing-function: ease-in-out;

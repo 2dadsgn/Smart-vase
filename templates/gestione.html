@@ -46,7 +46,7 @@
 
                          <img  src="{{ url_for('static', filename = 'sad-plant.png') }}" class="sad-plant"  >
 
-                      {% if ultimi_dati[i]['light']=='False' and ultimi_dati[i][0][0]['water']=='False' %}
+                      {% if ultimi_dati[i]['light']=='False' and ultimi_dati[i]['water']=='False' %}
 
                           <p class="error-data">Your plant needs water  and light </p>
 
@@ -68,7 +68,7 @@
 
               </div>
           {% else %}
-                  <h11 class="col-md-9 col-10 nodataavailable " >No Data availables,<br>
+                  <h11 class="col-md-8 col-10 nodataavailable " >No Data availables,<br>
                 are you sure your Smart vase is connected to the internet?</h11>
 
           {% endif %}
