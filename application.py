@@ -23,8 +23,8 @@ def create_app(test_config=None):
 
     app.config['MAIL_SERVER'] = 'out.virgilio.it'
     app.config['MAIL_PORT'] = 465
-    app.config['MAIL_USERNAME'] = 'smartvaseprj@virgilio.it'
-    app.config['MAIL_PASSWORD'] = 'progettodb52'
+    app.config['MAIL_USERNAME'] = 'prova@mail.com'
+    app.config['MAIL_PASSWORD'] = 'prova123'
     app.config['MAIL_USE_TLS'] = False
     app.config['MAIL_USE_SSL'] = True
     mail = Mail(app)
